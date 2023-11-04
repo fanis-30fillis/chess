@@ -3,6 +3,7 @@ package chess;
 import java.util.Scanner;
 
 public class Game {
+
 	final Board gameBoard = new Board();
 	final String help = """
 			Chess game \n
@@ -25,7 +26,8 @@ public class Game {
 	StringBuilder whiteMoves = new StringBuilder();
 	StringBuilder blackMoves = new StringBuilder();
 
-	boolean isValidString(String move) {
+	private void printHelp() {System.out.println(help);}
+	private boolean isValidString(String move) {
 
 		for(int cnt = 0; cnt < move.length(); cnt++) {
 
@@ -40,7 +42,7 @@ public class Game {
 		return true;
 	}
 
-	void handleMove(String move)
+	private void handleMove(String move)
 	{
 		if(!isValidString(move)) {
 			System.out.println("String isn't a valid move indicator");
@@ -92,7 +94,7 @@ public class Game {
 			if(in.charAt(0) == ':') {
 				switch(in.charAt(1)) {
 				case 'h':
-					System.out.println(help);
+					printHelp();
 					break;
 				case 's':
 					System.out.println("save");
