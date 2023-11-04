@@ -4,8 +4,26 @@ import java.util.Scanner;
 
 public class Game {
 	final Board gameBoard = new Board();
-	final String help = "help placeholder";
+	final String help = """
+			Chess game \n
+			:h print help\n
+			:o load game\n
+			:s save game\n
+			:x exit program\n\n
+
+			In general the commands are given in the following format:\n
+			a0b0\n
+			where a0 selects the piece that is in the position a0 and\n
+			moves it to the position b0\n
+			The commands to move pieces are given in coordinates like\n
+			a0a1\n
+			where the piece in the position a0 is moved to the a1 position\n
+			depending if it's possible.\n
+			The program displays 
+			""";
 	Color colorMoves = Color.WHITE;
+	StringBuilder whiteMoves = new StringBuilder();
+	StringBuilder blackMoves = new StringBuilder();
 
 	boolean isValidString(String move) {
 
@@ -43,6 +61,13 @@ public class Game {
 			p.moveTo(loc2);
 		} catch (InvalidMoveException e) {
 			System.out.println("Invalid Move");
+			return;
+		}
+
+		if(colorMoves == Color.WHITE) {
+			whiteMoves.append(move);
+		} else {
+			blackMoves.append(move);
 		}
 
 		// if the move is completed then the next color gets to go
@@ -50,14 +75,20 @@ public class Game {
 	}
 
 	void play() {
+		this.gameBoard.init();
 		final Scanner scan = new Scanner(System.in);
 
 		while(true) {
+			System.out.println(this.gameBoard.toString());
+			System.out.println("\n\n");
+			System.out.print(colorMoves);
+			System.out.println(" TURN");
 			System.out.println("Input command");
 			String in = scan.nextLine();
 			// if the user hasn't given anything continue
 			if(in.length() == 0 || in.length() == 1) {continue;}
 
+			// if we have a command to the program
 			if(in.charAt(0) == ':') {
 				switch(in.charAt(1)) {
 				case 'h':
@@ -65,6 +96,13 @@ public class Game {
 					break;
 				case 's':
 					System.out.println("save");
+					String filename;
+					try {
+						filename = in.split(" ")[1];
+					} catch(Exception e) {
+						System.out.println("You must provide a filename to save the file to");
+						break;
+					}
 					break;
 				case 'o':
 					System.out.println("load");
