@@ -1,7 +1,6 @@
 package chess;
 
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
@@ -14,6 +13,8 @@ public class Game {
 			:h print help\n
 			:o load game\n
 			:s save game\n
+			After that command is given the program will ask you to input\n
+			the name of the file and it will save the game to this folder\n
 			:x exit program\n\n
 
 			In general the commands are given in the following format:\n
@@ -128,14 +129,7 @@ public class Game {
 					printHelp();
 					break;
 				case 's':
-					System.out.println("save");
-					String filename;
-					try {
-						filename = in.split(" ")[1];
-					} catch(Exception e) {
-						System.out.println("You must provide a filename to save the file to");
-						break;
-					}
+					saveGame();
 					break;
 				case 'o':
 					System.out.println("load");
