@@ -65,6 +65,10 @@ class King extends Piece {
 	}
 
 	boolean moveIsLegal(Location newLoc) {
+
+		if(newLoc.equals(loc)) {
+			return false;
+		}
 		// if we are out of board bounds then we can't move there
 		if(!boundsCheck(newLoc)) {
 			return false;
@@ -107,6 +111,10 @@ class Pawn extends Piece {
 
 	boolean moveIsLegal(Location newLoc) 
 	{
+
+		if(newLoc.equals(loc)) {
+			return false;
+		}
 		if(!boundsCheck(newLoc)) {
 			return false;
 		}
@@ -156,6 +164,10 @@ class Queen extends Piece {
 	}
 
 	boolean moveIsLegal(Location newLoc) {
+
+		if(newLoc.equals(loc)) {
+			return false;
+		}
 		if(!boundsCheck(newLoc)) {
 			return false;
 		}
@@ -204,6 +216,10 @@ class Rook extends Piece {
 	}
 
 	boolean moveIsLegal(Location newLoc) {
+
+		if(newLoc.equals(loc)) {
+			return false;
+		}
 		if(!boundsCheck(newLoc)) {
 			return false;
 		}
@@ -233,6 +249,10 @@ class Knight extends Piece {
 	}
 
 	boolean moveIsLegal(Location newLoc) {
+
+		if(newLoc.equals(loc)) {
+			return false;
+		}
 		if(!boundsCheck(newLoc)) {
 			return false;
 		}
@@ -269,9 +289,19 @@ class Bishop extends Piece {
 	}
 
 	boolean moveIsLegal(Location newLoc) {
+		if(newLoc.equals(loc)) {
+			return false;
+		}
 		if(!boundsCheck(newLoc)) {
 			return false;
 		}
+
+		// if it's not diagonal then we can't move there
+		if(Math.abs(loc.getRow() - newLoc.getRow()) !=
+				Math.abs(loc.getCol() - newLoc.getCol())) {
+			return false;
+		}
+
 		return true;
 	}
 }

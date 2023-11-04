@@ -34,5 +34,9 @@ public class Location {
 	public int getRow() {
 		return row;
 	}
+	
+	public boolean equals(Location loc) {
+		return row == loc.getRow() && col == loc.getCol();
+	}
 
 }
