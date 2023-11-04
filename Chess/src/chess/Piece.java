@@ -18,7 +18,7 @@ abstract class Piece {
 		this.board = board;
 		this.loc = loc;
 	}
-
+	
 	int chebyshevDistance(Location loc1, Location loc2) {
 		return Math.max(Math.abs(loc1.getRow() - loc2.getRow()),
 				loc1.getCol() - loc2.getCol());
@@ -46,9 +46,11 @@ abstract class Piece {
 			throw new InvalidMoveException("Invalid");
 		}
 
-		// assuming that all the proper check have been handled in moveIsLegal
-		board.board[newLoc.getRow()][newLoc.getCol()] = this;
-		board.board[loc.getRow()][loc.getCol()] = null;
+		if(board.board[newLoc.getRow()][newLoc.getCol()] != null) {
+			board.movePieceCapturing(loc, newLoc);
+		} else {
+			board.movePiece(loc, newLoc);
+		}
 		this.loc = newLoc;
 	}
 	

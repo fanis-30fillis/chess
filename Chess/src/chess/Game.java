@@ -3,7 +3,9 @@ package chess;
 import java.util.Scanner;
 
 public class Game {
+	final Board gameBoard = new Board();
 	final String help = "help placeholder";
+	Color colorMoves = Color.WHITE;
 
 	boolean isValidString(String move) {
 
@@ -20,8 +22,8 @@ public class Game {
 		return true;
 	}
 
-	void handleMove(String move) {
-
+	void handleMove(String move)
+	{
 		if(!isValidString(move)) {
 			System.out.println("String isn't a valid move indicator");
 			return;
@@ -30,16 +32,21 @@ public class Game {
 		// calculates the locations
 		Location loc1 = new Location(move.substring(0, 2));
 		Location loc2 = new Location(move.substring(2, 4));
-		System.out.println(loc1.loc);
-		System.out.println(loc1.getRow());
-		System.out.println(loc1.getCol());
-		System.out.println("------------");
+		Piece p = gameBoard.board[loc1.getRow()][loc1.getCol()];
 
-		System.out.println(loc2.loc);
-		System.out.println(loc2.getRow());
-		System.out.println(loc2.getCol());
-		System.out.println("------------");
+		if(p == null) {
+			System.out.println("No piece exists at this point");
+			return;
+		}
 
+		try {
+			p.moveTo(loc2);
+		} catch (InvalidMoveException e) {
+			System.out.println("Invalid Move");
+		}
+
+		// if the move is completed then the next color gets to go
+		colorMoves.nextColor();
 	}
 
 	void play() {
@@ -74,5 +81,6 @@ public class Game {
 				handleMove(in);
 			}
 		}
+		scan.close();
 	}
 }

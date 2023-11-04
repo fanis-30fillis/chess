@@ -12,8 +12,8 @@ public class Board {
 	}
 	
 	void movePieceCapturing(Location from, Location to) {
-		Piece p1 = board[from.getRow()][from.getCol()];
-		board[to.getRow()][to.getCol()] = p1;
+		Piece p = board[from.getRow()][from.getCol()];
+		board[to.getRow()][to.getCol()] = p;
 		board[from.getRow()][from.getCol()] = null;
 	}
 
