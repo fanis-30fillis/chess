@@ -211,8 +211,12 @@ class Rook extends Piece {
 		if(newLoc.getRow() != loc.getRow() && newLoc.getCol() != loc.getCol() ) {
 			return false;
 		}
-
-		return true;
+		
+		if(newLoc.getRow() == loc.getRow()) {
+			return board.freeHorizontalPath(loc, newLoc);
+		} else {
+			return board.freeVerticalPath(loc, newLoc);
+		}
 	}
 }
 
@@ -232,6 +236,22 @@ class Knight extends Piece {
 		if(!boundsCheck(newLoc)) {
 			return false;
 		}
+
+		if(Math.abs(newLoc.getRow()-loc.getRow()) == 1 &&
+				Math.abs(newLoc.getCol() - loc.getCol()) == 2 ) {
+			// short circuit logic makes sure that if the object doesn't exist
+			// then it won't check it's color therefore won't throw a 
+			// Not found exception 
+			if(board.board[newLoc.getRow()][newLoc.getCol()] == null ||
+					board.board[newLoc.getRow()][newLoc.getCol()].color != this.color) {
+				return true;
+			} else {
+				// if there is an object in the board and it's the same color 
+				// as us then we can't move there
+				return false;
+			}
+		}
+
 		return true;
 	}
 }
