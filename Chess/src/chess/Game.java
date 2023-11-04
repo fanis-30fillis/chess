@@ -1,5 +1,9 @@
 package chess;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Game {
@@ -74,6 +78,33 @@ public class Game {
 
 		// if the move is completed then the next color gets to go
 		colorMoves.nextColor();
+	}
+	
+	void saveGame() {
+		System.out.print("Input File to save to: ");
+		Scanner scan = new Scanner(System.in);
+		String filename = scan.nextLine();
+		scan.close();
+		BufferedWriter bw;
+		try {
+			bw = new BufferedWriter(new FileWriter(filename));
+		} catch(Exception e) {
+			System.out.println("Unable to create file, try a different filename");
+			scan.close();
+			return;
+		}
+		try {
+			bw.append(whiteMoves.toString()); bw.append("\n");
+			bw.append(blackMoves.toString()); bw.append("\n");
+		} catch (IOException e) {
+			System.out.println("Error occured when writing to file");
+		}
+
+		try {
+			bw.close();
+		} catch (IOException e) {
+			System.out.println("Error occured when closing the BufferedWriter");
+		}
 	}
 
 	void play() {
