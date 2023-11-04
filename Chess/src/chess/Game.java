@@ -32,6 +32,7 @@ public class Game {
 	StringBuilder blackMoves = new StringBuilder();
 
 	private void printHelp() {System.out.println(help);}
+
 	private boolean isValidString(String move) {
 
 		for(int cnt = 0; cnt < move.length(); cnt++) {
@@ -45,6 +46,23 @@ public class Game {
 			}
 		}
 		return true;
+	}
+	
+	private void openFile() {
+		Scanner scan = new Scanner(System.in);
+		String answer = "";
+
+		while(whiteMoves.length() != 0 && !answer.equals("y") && !answer.equals("n")) {
+			System.out.print("You have a game running, do you want to abandon it ?[y/n]");
+			answer = scan.nextLine();
+		}
+
+		scan.close();
+		if(answer.equals("n")) {
+			// cancel the op
+			return;
+		}
+		System.out.print("Input the name of the file to open: ");
 	}
 
 	private void handleMove(String move)
