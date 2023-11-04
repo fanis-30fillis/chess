@@ -28,6 +28,17 @@ abstract class Piece {
 		return (loc.getCol() >= 0 && loc.getCol() <= 7) &&
 				(loc.getRow() >= 0 && loc.getRow() <= 7);
 	}
+	
+	boolean checkFinalPosition(Location newLoc) {
+		if(board.board[newLoc.getRow()][newLoc.getCol()] == null ||
+			board.board[newLoc.getRow()][newLoc.getCol()].color != this.color) {
+			return true;
+		} else {
+			// if there is an object in the board and it's the same color 
+			// as us then we can't move there
+			return false;
+		}
+	}
 
 	void moveTo(Location newLoc) throws InvalidMoveException {
 		// checks if the move is Legal
@@ -107,6 +118,7 @@ class Pawn extends Piece {
 			throw new InvalidMoveException("Invalid move");
 		}
 		hasMoved = true;
+		board.movePiece(loc, newLoc);
 	}
 
 	boolean moveIsLegal(Location newLoc) 
@@ -302,6 +314,19 @@ class Bishop extends Piece {
 			return false;
 		}
 
-		return true;
+		// the movement is diagonal
+		if(loc.getRow() < newLoc.getRow()) {
+			if(loc.getCol() < newLoc.getCol()) {
+				return board.freeDiagonalPath(loc, newLoc);
+			} else {
+				return board.freeAntidiagonalPath(loc, newLoc);
+			}
+		} else {
+			if(loc.getCol() < newLoc.getCol()) {
+				return board.freeAntidiagonalPath(loc, newLoc);
+			} else {
+				return board.freeDiagonalPath(loc, newLoc);
+			}
+		}
 	}
 }
