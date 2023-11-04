@@ -5,6 +5,12 @@ public class Board {
 	// creates the array that will hold all the pieces
 	final Piece board[][] = new Piece[8][8];
 
+	void movePiece(Location from, Location to) {
+		Piece p = board[from.getRow()][from.getCol()];
+		board[to.getRow()][to.getCol()] = p;
+		board[from.getRow()][from.getCol()] = null;
+	}
+
 	boolean freeAntidiagonalPath(Location from, Location to) 
 	{
 		int currentRow = to.getRow();
