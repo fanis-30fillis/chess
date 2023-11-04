@@ -10,6 +10,12 @@ public class Board {
 		board[to.getRow()][to.getCol()] = p;
 		board[from.getRow()][from.getCol()] = null;
 	}
+	
+	void movePieceCapturing(Location from, Location to) {
+		Piece p1 = board[from.getRow()][from.getCol()];
+		board[to.getRow()][to.getCol()] = p1;
+		board[from.getRow()][from.getCol()] = null;
+	}
 
 	boolean freeAntidiagonalPath(Location from, Location to) 
 	{
