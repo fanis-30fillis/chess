@@ -15,11 +15,7 @@ class King extends Piece {
 
 	boolean moveIsLegal(Location newLoc) {
 
-		if(newLoc.equals(loc)) {
-			return false;
-		}
-		// if we are out of board bounds then we can't move there
-		if(!boundsCheck(newLoc)) {
+		if(!standardLocationChecks(newLoc)) {
 			return false;
 		}
 

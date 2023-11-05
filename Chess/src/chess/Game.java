@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 public class Game {
 
+	private final Scanner scan = new Scanner(System.in);
 	private final Board gameBoard = new Board();
 	private final String help = """
 			Chess game 
@@ -50,7 +51,6 @@ public class Game {
 	
 	private void openFile() 
 	{
-		Scanner scan = new Scanner(System.in);
 		String answer = "";
 
 		while(whiteMoves.length() != 0 && !answer.equals("y") && !answer.equals("n")) {
@@ -60,32 +60,29 @@ public class Game {
 
 		if(whiteMoves.length() != 0 && answer.equals("n")) {
 			// cancel the op
-			scan.close();
 			return;
 		}
 
 		answer = "";
 		while(answer.length() == 0) {
-			System.out.print("Input the filename to read from");
+			System.out.print("Input the filename to read from: ");
 			answer = scan.nextLine();
 		}
+
 		Scanner fileScan = null;
 		File fileToRead;
 		try {
 			fileToRead = new File(answer);
 		} catch(NoSuchElementException e) {
 			System.out.println("No such file exists");
-			scan.close();
 			return;
 		}
 
 		try {
 			fileScan = new Scanner(fileToRead);
 		} catch (FileNotFoundException e) {
-			// if the file to load from doesn't exist then print a message to the user
+//			 if the file to load from doesn't exist then print a message to the user
 			System.out.println("Couldn't find the file to load from");
-			scan.nextLine();
-			scan.close();
 			return;
 		} 
 
@@ -95,7 +92,6 @@ public class Game {
 			whiteMoveRawString = fileScan.nextLine();
 		} else {
 			System.out.println("File is empty");
-			scan.close();
 			fileScan.close();
 			return;
 		}
@@ -104,7 +100,6 @@ public class Game {
 			blackMoveRawString = fileScan.nextLine();
 		} else {
 			System.out.println("File is incomplete");
-			scan.close();
 			fileScan.close();
 			return;
 		}
@@ -112,6 +107,7 @@ public class Game {
 
 		if(whiteMoveRawString.length() % 4 != 0 || blackMoveRawString.length() % 4 != 0 ) {
 			System.out.println("Savefile is Malformed");
+			return;
 		} 
 
 		String[] whiteMoves = parseMoveString(whiteMoveRawString);
@@ -123,12 +119,24 @@ public class Game {
 		} else {
 			this.colorMoves = Color.WHITE;
 		}
+		
+		for(int cnt = 0; cnt < whiteMoves.length+blackMoves.length; cnt++) {
+			// if the last bit of the number is enabled then it's an odd number
+			if((cnt & 0x01) == 0) {
+				// division by two using right shifting by one bit
+				handleMove(whiteMoves[cnt >> 1]);
+			} else {
+				// division by two using right shifting by one bit
+				handleMove(blackMoves[cnt >> 1]);
+			}
+		}
 
 		if(fileScan != null) {
 			fileScan.close();
 		}
 
-		scan.close();
+		System.out.println("\n\n");
+		System.out.println(gameBoard.toString());
 	}
 
 	private void handleMove(String move)
@@ -145,6 +153,10 @@ public class Game {
 
 		if(p == null) {
 			System.out.println("No piece exists at this point");
+			return;
+		}
+		if(p.color != colorMoves) {
+			System.out.println("That Piece isn't yours");
 			return;
 		}
 
@@ -167,15 +179,12 @@ public class Game {
 	
 	private void saveGame() {
 		System.out.print("Input File to save to: ");
-		Scanner scan = new Scanner(System.in);
 		String filename = scan.nextLine();
-		scan.close();
 		BufferedWriter bw;
 		try {
 			bw = new BufferedWriter(new FileWriter(filename));
 		} catch(Exception e) {
 			System.out.println("Unable to create file, try a different filename");
-			scan.close();
 			return;
 		}
 		try {
@@ -194,7 +203,7 @@ public class Game {
 
 	protected void play() {
 		this.gameBoard.init();
-		final Scanner scan = new Scanner(System.in);
+//		final Scanner scan = new Scanner(System.in);
 
 		while(true) {
 			System.out.println(this.gameBoard.toString());

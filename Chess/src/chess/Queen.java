@@ -15,12 +15,10 @@ class Queen extends Piece {
 
 	boolean moveIsLegal(Location newLoc) {
 
-		if(newLoc.equals(loc)) {
+		if(!standardLocationChecks(newLoc)) {
 			return false;
 		}
-		if(!boundsCheck(newLoc)) {
-			return false;
-		}
+
 		// if the movement is not diagonal
 		if(Math.abs(newLoc.getRow() - loc.getRow()) != Math.abs(newLoc.getCol() - loc.getCol())) {
 			// if it's not horizontal then return false

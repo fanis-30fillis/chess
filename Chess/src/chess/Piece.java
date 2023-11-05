@@ -29,6 +29,19 @@ abstract class Piece {
 				(loc.getRow() >= 0 && loc.getRow() <= 7);
 	}
 	
+	boolean standardLocationChecks(Location newLoc) {
+		if(newLoc.equals(loc)) {
+			return false;
+		}
+		if(!boundsCheck(newLoc)) {
+			return false;
+		}
+		if(!checkFinalPosition(newLoc)) {
+			return false;
+		}
+		return true;
+	}
+
 	boolean checkFinalPosition(Location newLoc) {
 		if(board.board[newLoc.getRow()][newLoc.getCol()] == null ||
 			board.board[newLoc.getRow()][newLoc.getCol()].color != this.color) {

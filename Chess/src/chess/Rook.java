@@ -15,12 +15,10 @@ class Rook extends Piece {
 
 	boolean moveIsLegal(Location newLoc) {
 
-		if(newLoc.equals(loc)) {
+		if(!standardLocationChecks(newLoc)) {
 			return false;
 		}
-		if(!boundsCheck(newLoc)) {
-			return false;
-		}
+
 		// if its not vertical or horizontal the movement is invalid
 		if(newLoc.getRow() != loc.getRow() && newLoc.getCol() != loc.getCol() ) {
 			return false;

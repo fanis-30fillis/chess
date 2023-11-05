@@ -13,10 +13,7 @@ class Bishop extends Piece {
 	}
 
 	boolean moveIsLegal(Location newLoc) {
-		if(newLoc.equals(loc)) {
-			return false;
-		}
-		if(!boundsCheck(newLoc)) {
+		if(!standardLocationChecks(newLoc)) {
 			return false;
 		}
 
