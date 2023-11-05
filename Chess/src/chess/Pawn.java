@@ -27,11 +27,11 @@ class Pawn extends Piece {
 
 		// we can't move backwards or sideways
 		if(this.color == Color.WHITE) {
-			if(newLoc.getRow() >= loc.getRow()) {
+			if(newLoc.getRow() <= loc.getRow()) {
 				return false;
 			}
 		} else {
-			if(newLoc.getRow() <= loc.getRow()) {
+			if(newLoc.getRow() >= loc.getRow()) {
 				return false;
 			}
 		}
