@@ -108,10 +108,21 @@ public class Game {
 			fileScan.close();
 			return;
 		}
+		fileScan.close();
 
 		if(whiteMoveRawString.length() % 4 != 0 || blackMoveRawString.length() % 4 != 0 ) {
 			System.out.println("Savefile is Malformed");
 		} 
+
+		String[] whiteMoves = parseMoveString(whiteMoveRawString);
+		String[] blackMoves = parseMoveString(blackMoveRawString);
+
+		// determines the next move player based on the moves that have been played
+		if(whiteMoves.length > blackMoves.length) {
+			this.colorMoves = Color.BLACK;
+		} else {
+			this.colorMoves = Color.WHITE;
+		}
 
 		if(fileScan != null) {
 			fileScan.close();
@@ -220,5 +231,13 @@ public class Game {
 			}
 		}
 		scan.close();
+	}
+	
+	private String[] parseMoveString(String moves) {
+		String[] resultingArray = new String[moves.length()/4];
+		for(int cnt = 0; cnt <= moves.length()-4; cnt+=4) {
+			resultingArray[cnt/4] = moves.substring(cnt, cnt+4);
+		}
+		return resultingArray;
 	}
 }
