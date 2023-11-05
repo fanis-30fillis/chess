@@ -10,8 +10,8 @@ import java.util.Scanner;
 
 public class Game {
 
-	final Board gameBoard = new Board();
-	final String help = """
+	private final Board gameBoard = new Board();
+	private final String help = """
 			Chess game 
 			:h print help
 			:o load game
@@ -27,9 +27,9 @@ public class Game {
 			For example the command a2a4 in the initial table moves the Pawn
 			in position a2 to position a4.
 			""";
-	Color colorMoves = Color.WHITE;
-	StringBuilder whiteMoves = new StringBuilder();
-	StringBuilder blackMoves = new StringBuilder();
+	private Color colorMoves = Color.WHITE;
+	private StringBuilder whiteMoves = new StringBuilder();
+	private StringBuilder blackMoves = new StringBuilder();
 
 	private void printHelp() {System.out.println(help);}
 
@@ -165,7 +165,7 @@ public class Game {
 		colorMoves = colorMoves.nextColor();
 	}
 	
-	void saveGame() {
+	private void saveGame() {
 		System.out.print("Input File to save to: ");
 		Scanner scan = new Scanner(System.in);
 		String filename = scan.nextLine();
@@ -192,7 +192,7 @@ public class Game {
 		}
 	}
 
-	void play() {
+	protected void play() {
 		this.gameBoard.init();
 		final Scanner scan = new Scanner(System.in);
 
