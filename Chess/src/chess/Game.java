@@ -12,23 +12,20 @@ public class Game {
 
 	final Board gameBoard = new Board();
 	final String help = """
-			Chess game \n
-			:h print help\n
-			:o load game\n
-			:s save game\n
-			After that command is given the program will ask you to input\n
-			the name of the file and it will save the game to this folder\n
-			:x exit program\n\n
+			Chess game 
+			:h print help
+			:o load game
+			:s save game
+			After that command is given the program will ask you to input
+			the name of the file and it will save the game to this folder
+			:x exit program\n
 
 			In general the commands are given in the following format:\n
 			a0b0\n
 			where a0 selects the piece that is in the position a0 and\n
-			moves it to the position b0\n
-			The commands to move pieces are given in coordinates like\n
-			a0a1\n
-			where the piece in the position a0 is moved to the a1 position\n
-			depending if it's possible.\n
-			The program displays 
+			moves it to the position b0
+			For example the command a2a4 in the initial table moves the Pawn
+			in position a2 to position a4.
 			""";
 	Color colorMoves = Color.WHITE;
 	StringBuilder whiteMoves = new StringBuilder();
@@ -85,20 +82,33 @@ public class Game {
 		try {
 			fileScan = new Scanner(fileToRead);
 		} catch (FileNotFoundException e) {
+			// if the file to load from doesn't exist then print a message to the user
 			System.out.println("Couldn't find the file to load from");
 			scan.nextLine();
 			scan.close();
 			return;
-		} catch(Exception e) {
-			System.out.println(e);
-			System.out.println("Not properly handled exception Occured");
-			scan.nextLine();
+		} 
+
+		String blackMoveRawString;
+		String whiteMoveRawString;
+		if(fileScan.hasNextLine()) {
+			whiteMoveRawString = fileScan.nextLine();
+		} else {
+			System.out.println("File is empty");
 			scan.close();
+			fileScan.close();
 			return;
 		}
 
-		String whiteMoveRawString = fileScan.nextLine();
-		String blackMoveRawString = fileScan.nextLine();
+		if(fileScan.hasNextLine()) {
+			blackMoveRawString = fileScan.nextLine();
+		} else {
+			System.out.println("File is incomplete");
+			scan.close();
+			fileScan.close();
+			return;
+		}
+
 		if(whiteMoveRawString.length() % 4 != 0 || blackMoveRawString.length() % 4 != 0 ) {
 			System.out.println("Savefile is Malformed");
 		} 
@@ -130,9 +140,6 @@ public class Game {
 		try {
 			p.moveTo(loc2);
 		} catch (InvalidMoveException e) {
-			System.out.println(loc2.loc);
-			System.out.println(loc2.getRow());
-			System.out.println(loc2.getCol());
 			System.out.println("Invalid Move");
 			return;
 		}

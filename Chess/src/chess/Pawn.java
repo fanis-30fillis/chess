@@ -21,6 +21,7 @@ class Pawn extends Piece {
 		if(newLoc.equals(loc)) {
 			return false;
 		}
+
 		if(!boundsCheck(newLoc)) {
 			return false;
 		}
