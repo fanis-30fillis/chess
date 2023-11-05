@@ -133,9 +133,15 @@ class Pawn extends Piece {
 			return false;
 		}
 
-		// can't move backwards or sideways
-		if(newLoc.getRow() <= loc.getRow()) {
-			return false;
+		// we can't move backwards or sideways
+		if(this.color == Color.WHITE) {
+			if(newLoc.getRow() >= loc.getRow()) {
+				return false;
+			}
+		} else {
+			if(newLoc.getRow() <= loc.getRow()) {
+				return false;
+			}
 		}
 
 		// after the first move the pawn can only move one tile up
@@ -290,8 +296,9 @@ class Knight extends Piece {
 				// as us then we can't move there
 				return false;
 			}
+		} else {
+			return false;
 		}
-		return true;
 	}
 }
 

@@ -1,8 +1,11 @@
 package chess;
 
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class Game {
@@ -48,7 +51,8 @@ public class Game {
 		return true;
 	}
 	
-	private void openFile() {
+	private void openFile() 
+	{
 		Scanner scan = new Scanner(System.in);
 		String answer = "";
 
@@ -57,12 +61,53 @@ public class Game {
 			answer = scan.nextLine();
 		}
 
-		scan.close();
-		if(answer.equals("n")) {
+		if(whiteMoves.length() != 0 && answer.equals("n")) {
 			// cancel the op
+			scan.close();
 			return;
 		}
-		System.out.print("Input the name of the file to open: ");
+
+		answer = "";
+		while(answer.length() == 0) {
+			System.out.print("Input the filename to read from");
+			answer = scan.nextLine();
+		}
+		Scanner fileScan = null;
+		File fileToRead;
+		try {
+			fileToRead = new File(answer);
+		} catch(NoSuchElementException e) {
+			System.out.println("No such file exists");
+			scan.close();
+			return;
+		}
+
+		try {
+			fileScan = new Scanner(fileToRead);
+		} catch (FileNotFoundException e) {
+			System.out.println("Couldn't find the file to load from");
+			scan.nextLine();
+			scan.close();
+			return;
+		} catch(Exception e) {
+			System.out.println(e);
+			System.out.println("Not properly handled exception Occured");
+			scan.nextLine();
+			scan.close();
+			return;
+		}
+
+		String whiteMoveRawString = fileScan.nextLine();
+		String blackMoveRawString = fileScan.nextLine();
+		if(whiteMoveRawString.length() % 4 != 0 || blackMoveRawString.length() % 4 != 0 ) {
+			System.out.println("Savefile is Malformed");
+		} 
+
+		if(fileScan != null) {
+			fileScan.close();
+		}
+
+		scan.close();
 	}
 
 	private void handleMove(String move)
@@ -85,6 +130,9 @@ public class Game {
 		try {
 			p.moveTo(loc2);
 		} catch (InvalidMoveException e) {
+			System.out.println(loc2.loc);
+			System.out.println(loc2.getRow());
+			System.out.println(loc2.getCol());
 			System.out.println("Invalid Move");
 			return;
 		}
@@ -96,7 +144,7 @@ public class Game {
 		}
 
 		// if the move is completed then the next color gets to go
-		colorMoves.nextColor();
+		colorMoves = colorMoves.nextColor();
 	}
 	
 	void saveGame() {
@@ -135,7 +183,7 @@ public class Game {
 			System.out.println("\n\n");
 			System.out.print(colorMoves);
 			System.out.println(" TURN");
-			System.out.println("Input command");
+			System.out.println("Input command: ");
 			String in = scan.nextLine();
 			// if the user hasn't given anything continue
 			if(in.length() == 0 || in.length() == 1) {continue;}
@@ -150,7 +198,7 @@ public class Game {
 					saveGame();
 					break;
 				case 'o':
-					System.out.println("load");
+					openFile();
 				}
 
 				if(in.charAt(1) == 'x') {
