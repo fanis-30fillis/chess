@@ -57,7 +57,7 @@ public class Board {
 			upperLimitCol = to.getCol();
 		}
 
-		while(++currentRow <= upperLimitRow && ++currentCol <= upperLimitCol) {
+		while(++currentRow < upperLimitRow && ++currentCol < upperLimitCol) {
 			if(board[currentRow][currentCol] != null) {
 				return false;
 			}
@@ -106,45 +106,56 @@ public class Board {
 
 	void init()
 	{
-		// TODO empty the board before
+		for(int row = 0; row < 8; row++) {
+			for(int col=0; col < 8; col++) {
+				board[row][col] = null;
+			}
+		}
 
 		int row = 6;
+		try { 
+			for(int cnt = 0; cnt < 8; cnt++) {
+				board[row][cnt] = new Pawn(new Location(row, cnt), Color.BLACK, this);
+			}
 
-		for(int cnt = 0; cnt < 8; cnt++) {
-			board[row][cnt] = new Pawn(new Location(row, cnt), currentColor, this);
+			board[7][0] = new Rook(new Location(7, 0), Color.BLACK, this);
+			board[7][7] = new Rook(new Location(7, 7), Color.BLACK, this);
+
+			board[7][1] = new Knight(new Location(7, 1), Color.BLACK, this);
+			board[7][6] = new Knight(new Location(7, 6), Color.BLACK, this);
+
+			board[7][2] = new Bishop(new Location(7, 2), Color.BLACK, this);
+			board[7][5] = new Bishop(new Location(7, 5), Color.BLACK, this);
+
+			board[7][3] = new Queen(new Location(7, 3), Color.BLACK, this);
+			board[7][4] = new King(new Location(7, 4), Color.BLACK, this);
+		} catch (InvalidLocationException e) {
+			System.out.println(e.getMessage());
+			return;
 		}
 
-		board[7][0] = new Rook(new Location(7, 0), currentColor, this);
-		board[7][7] = new Rook(new Location(7, 7), currentColor, this);
 
-		board[7][1] = new Knight(new Location(7, 1), currentColor, this);
-		board[7][6] = new Knight(new Location(7, 6), currentColor, this);
-
-		board[7][2] = new Bishop(new Location(7, 2), currentColor, this);
-		board[7][5] = new Bishop(new Location(7, 5), currentColor, this);
-
-		board[7][3] = new Queen(new Location(7, 3), currentColor, this);
-		board[7][4] = new King(new Location(7, 4), currentColor, this);
-
-
-		currentColor = currentColor.nextColor();
 		row = 1;
 
-		for(int cnt = 0; cnt < 8; cnt++) {
-			board[row][cnt] = new Pawn(new Location(row, cnt), currentColor, this);
+		try {
+			for(int cnt = 0; cnt < 8; cnt++) {
+				board[row][cnt] = new Pawn(new Location(row, cnt), Color.WHITE, this);
+			}
+
+			board[0][0] = new Rook(new Location(0, 0), Color.WHITE, this);
+			board[0][7] = new Rook(new Location(0, 7), Color.WHITE, this);
+
+			board[0][1] = new Knight(new Location(0, 1), Color.WHITE, this);
+			board[0][6] = new Knight(new Location(0, 6), Color.WHITE, this);
+
+			board[0][2] = new Bishop(new Location(0, 2), Color.WHITE, this);
+			board[0][5] = new Bishop(new Location(0, 5), Color.WHITE, this);
+
+			board[0][3] = new Queen(new Location(0, 3), Color.WHITE, this);
+			board[0][4] = new King(new Location(0, 4), Color.WHITE, this);
+		} catch (InvalidLocationException e) {
+			System.out.println(e.getMessage());
 		}
-
-		board[0][0] = new Rook(new Location(0, 0), currentColor, this);
-		board[0][7] = new Rook(new Location(0, 7), currentColor, this);
-
-		board[0][1] = new Knight(new Location(0, 1), currentColor, this);
-		board[0][6] = new Knight(new Location(0, 6), currentColor, this);
-
-		board[0][2] = new Bishop(new Location(0, 2), currentColor, this);
-		board[0][5] = new Bishop(new Location(0, 5), currentColor, this);
-
-		board[0][3] = new Queen(new Location(0, 3), currentColor, this);
-		board[0][4] = new King(new Location(0, 4), currentColor, this);
 	}
 	
 	private boolean checkValidLocation (Location loc) {

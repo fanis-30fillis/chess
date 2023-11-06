@@ -51,6 +51,7 @@ public class Game {
 	
 	private void openFile() 
 	{
+		this.gameBoard.init();
 		String answer = "";
 
 		while(whiteMoves.length() != 0 && !answer.equals("y") && !answer.equals("n")) {
@@ -120,9 +121,11 @@ public class Game {
 			this.colorMoves = Color.WHITE;
 		}
 		
-		for(int cnt = 0; cnt < whiteMoves.length+blackMoves.length; cnt++) {
+		// the inequity comparison doesn't take into account the fact that both 
+		// of the lengths are counted starting from 1 and not from 0
+		for(int cnt = 0; cnt < whiteMoves.length+blackMoves.length-1; cnt++) {
 			// if the last bit of the number is enabled then it's an odd number
-			if((cnt & 0x01) == 0) {
+			if(colorMoves == Color.WHITE) {
 				// division by two using right shifting by one bit
 				handleMove(whiteMoves[cnt >> 1]);
 			} else {
@@ -135,8 +138,6 @@ public class Game {
 			fileScan.close();
 		}
 
-		System.out.println("\n\n");
-		System.out.println(gameBoard.toString());
 	}
 
 	private void handleMove(String move)
@@ -207,7 +208,7 @@ public class Game {
 
 		while(true) {
 			System.out.println(this.gameBoard.toString());
-			System.out.println("\n\n");
+			System.out.println("\n");
 			System.out.print(colorMoves);
 			System.out.println(" TURN");
 			System.out.println("Input command: ");

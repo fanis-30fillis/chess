@@ -4,7 +4,15 @@ public class Location {
 	private int row;
 	private int col;
 	String loc;
-	Location(int row, int col) {
+	Location(int row, int col) throws InvalidLocationException {
+		if(row < 0 || row > 7) {
+			throw new InvalidLocationException("Given row is out of bounds");
+		}
+
+		if(col < 0 || col > 7) {
+			throw new InvalidLocationException("Given column is out of bounds");
+		}
+
 		this.row = row;
 		this.col = col;
 		// using ASCII table to find the correct letter (adding 97 makes 0 a char 'a')
