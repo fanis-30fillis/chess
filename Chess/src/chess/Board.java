@@ -134,7 +134,6 @@ public class Board {
 			return;
 		}
 
-
 		row = 1;
 
 		try {

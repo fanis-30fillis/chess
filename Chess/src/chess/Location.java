@@ -23,7 +23,15 @@ public class Location {
 		loc = new StringBuilder(2).append(firstLoc).append(secondLoc).toString();
 	}
 
-	Location(String loc) {
+	Location(String loc) throws InvalidLocationException {
+		if(loc.charAt(0) < 'a' || loc.charAt(0) > 'h') {
+			throw new InvalidLocationException("Invalid column indicator");
+		}
+
+		if (loc.charAt(1) < '1' || loc.charAt(1) > '8') {
+			throw new InvalidLocationException("Invalid row indicator");
+		}
+
 		this.loc = loc;
 		// using the ASCII table to get the coord ('1' is 49)
 		row = loc.charAt(1)-49;

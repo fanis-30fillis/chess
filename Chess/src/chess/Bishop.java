@@ -27,17 +27,26 @@ class Bishop extends Piece {
 			return false;
 		}
 
-		// the movement is diagonal
+		// since the movement is diagonal determine what sort 
+		// of diagonal it is
+		// if the new location is in the top
 		if(loc.getRow() < newLoc.getRow()) {
+			// if the new location column is to the right of 
+			// the starting position we have diagonal move /
 			if(loc.getCol() < newLoc.getCol()) {
 				return board.freeDiagonalPath(loc, newLoc);
 			} else {
+				// else we have antidiagonan \
 				return board.freeAntidiagonalPath(loc, newLoc);
 			}
 		} else {
+			// if the new location is to the right and lower of the 
+			// starting we have antidiagonal \
 			if(loc.getCol() < newLoc.getCol()) {
 				return board.freeAntidiagonalPath(loc, newLoc);
 			} else {
+				// if the new location is to the left and higher than
+				// the starting location /
 				return board.freeDiagonalPath(loc, newLoc);
 			}
 		}

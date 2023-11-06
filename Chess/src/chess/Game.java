@@ -10,8 +10,11 @@ import java.util.Scanner;
 
 public class Game {
 
+	// the scanner that the game will use for reading from the terminal
 	private final Scanner scan = new Scanner(System.in);
+	// the Board that will be used
 	private final Board gameBoard = new Board();
+	// help string that will be printed to the user
 	private final String help = """
 			Chess game 
 			:h print help
@@ -28,25 +31,28 @@ public class Game {
 			For example the command a2a4 in the initial table moves the Pawn
 			in position a2 to position a4.
 			""";
+	
+	// the starting color that moves is the WHITE one
 	private Color colorMoves = Color.WHITE;
+	// will be used to append the white moves performed
 	private StringBuilder whiteMoves = new StringBuilder();
+	// will be used to append the black moves performed
 	private StringBuilder blackMoves = new StringBuilder();
 
+	// prints the help to the user
 	private void printHelp() {System.out.println(help);}
 
+	private boolean isValidCol(char col) {
+		return col >= 'a' && col <= 'h';
+	}
+
+	private boolean isValidRow(char row) {
+		return row >= '1' && row <= '8';
+	}
+
 	private boolean isValidString(String move) {
-
-		for(int cnt = 0; cnt < move.length(); cnt++) {
-
-			char currentChar = move.charAt(cnt);
-			// if the currentChar isn't a letter or a number
-			// return false
-			if((currentChar < 'a' || currentChar > 'h') &&
-					(currentChar < '0' || currentChar > '8')) {
-				return false;
-			}
-		}
-		return true;
+		return isValidCol(move.charAt(0)) && isValidCol(move.charAt(2)) &&
+				isValidRow(move.charAt(1)) && isValidRow(move.charAt(3));
 	}
 	
 	private void openFile() 
@@ -148,8 +154,16 @@ public class Game {
 		}
 
 		// calculates the locations
-		Location loc1 = new Location(move.substring(0, 2));
-		Location loc2 = new Location(move.substring(2, 4));
+		Location loc1;
+		Location loc2;
+		try {
+			loc1 = new Location(move.substring(0, 2));
+			loc2 = new Location(move.substring(2, 4));
+		} catch (InvalidLocationException e) {
+			System.out.println(e.getMessage());
+			return;
+		}
+
 		Piece p = gameBoard.board[loc1.getRow()][loc1.getCol()];
 
 		if(p == null) {
