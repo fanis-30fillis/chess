@@ -10,12 +10,6 @@ class Pawn extends Piece {
 	void moveTo(Location newLoc) throws InvalidMoveException {
 		super.moveTo(newLoc);
 		hasMoved = true;
-//		if(!moveIsLegal(newLoc)) {
-//			throw new InvalidMoveException("Invalid move");
-//		}
-//		if(board.board[newLoc.getRow()][newLoc.getCol()].isEmpty()) {board.movePiece(loc, newLoc);}
-//		else {board.movePieceCapturing(loc, newLoc);}
-//		loc = newLoc;
 	}
 
 	boolean moveIsLegal(Location newLoc) 

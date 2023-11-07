@@ -7,28 +7,15 @@ class King extends Piece {
 		rep = c == Color.WHITE ? "K" : "k";
 	}
 
-//	void moveTo(Location newLoc) throws InvalidMoveException {
-//		if(!moveIsLegal(newLoc)) {
-//			throw new InvalidMoveException("Invalid move");
-//		}
-//		if(board.board[newLoc.getRow()][newLoc.getCol()].isEmpty()) {board.movePiece(loc, newLoc);}
-//		else {board.movePieceCapturing(loc, newLoc);}
-//		loc = newLoc;
-//	}
-
 	boolean moveIsLegal(Location newLoc) {
 
 		if(!standardLocationChecks(newLoc)) {
 			return false;
 		}
 
-		// TODO maybe implement castling 
-
 		// the king can only move to it's immediate neighboring tiles,
 		// therefore moving him beyond that limit is invalid
-		if(chebyshevDistance(loc, newLoc) > 1) {
-			return false;
-		}
+		if(chebyshevDistance(loc, newLoc) > 1) {return false;}
 		
 		// if there is a piece in the board 
 		if(board.board[newLoc.getRow()][newLoc.getCol()].isEmpty()) {
