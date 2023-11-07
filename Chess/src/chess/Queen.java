@@ -19,26 +19,18 @@ class Queen extends Piece {
 			if(newLoc.getRow() != loc.getRow() && newLoc.getCol() != loc.getCol()) {
 				return false;
 			}
+			// if the move is within the same row
 			if(newLoc.getRow() == loc.getRow() ) {
+				// check the horizontal path
 				return board.freeHorizontalPath(loc, newLoc);
 			} else {
+				// else the move is vertical
+				// check vertical path
 				return board.freeVerticalPath(loc, newLoc);
 			}
 		} else {
 			// the movement is diagonal
-			if(loc.getRow() < newLoc.getRow()) {
-				if(loc.getCol() < newLoc.getCol()) {
-					return board.freeDiagonalPath(loc, newLoc);
-				} else {
-					return board.freeAntidiagonalPath(loc, newLoc);
-				}
-			} else {
-				if(loc.getCol() < newLoc.getCol()) {
-					return board.freeAntidiagonalPath(loc, newLoc);
-				} else {
-					return board.freeDiagonalPath(loc, newLoc);
-				}
-			}
+			return checkDiagonalMovement(loc, newLoc);
 		}
 	}
 

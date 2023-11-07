@@ -45,6 +45,30 @@ abstract class Piece {
 		}
 		return true;
 	}
+	
+	boolean checkDiagonalMovement(Location loc, Location newLoc) {
+		if(loc.getRow() < newLoc.getRow()) {
+			// if the new location column is to the right of 
+			// the starting position we have diagonal move /
+			if(loc.getCol() < newLoc.getCol()) {
+				return board.freeDiagonalPath(loc, newLoc);
+			} else {
+				// else we have antidiagonan \
+				return board.freeAntidiagonalPath(loc, newLoc);
+			}
+		} else {
+			// if the new location is to the right and lower of the 
+			// starting we have antidiagonal \
+			if(loc.getCol() < newLoc.getCol()) {
+				return board.freeAntidiagonalPath(loc, newLoc);
+			} else {
+				// if the new location is to the left and higher than
+				// the starting location /
+				return board.freeDiagonalPath(loc, newLoc);
+			}
+		}
+		
+	}
 
 	boolean checkFinalPosition(Location newLoc) {
 		if(board.board[newLoc.getRow()][newLoc.getCol()].isEmpty() ||
