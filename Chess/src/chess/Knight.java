@@ -19,9 +19,8 @@ class Knight extends Piece {
 
 		if((verticalDistance == 1 && horizontalDistance == 2) ||
 				(verticalDistance == 2 && horizontalDistance == 1)) {
-			// short circuit logic makes sure that if the object doesn't exist
-			// then it won't check it's color therefore won't throw a 
-			// Not found exception 
+			// short circuit logic makes sure that if the object is empty
+			// then it won't check it's color 
 			if(board.board[newLoc.getRow()][newLoc.getCol()].isEmpty() ||
 					board.board[newLoc.getRow()][newLoc.getCol()].color != this.color) {
 				return true;
@@ -31,6 +30,7 @@ class Knight extends Piece {
 				return false;
 			}
 		} else {
+			// the destination location isn't one where we can jump to
 			return false;
 		}
 	}
