@@ -52,7 +52,6 @@ class Pawn extends Piece {
 				return false;
 			}
 
-			if(board.board[newLoc.getRow()][newLoc.getCol()].isEmpty()) {return true;}
 			// if a piece exists on the board
 			if(!board.board[newLoc.getRow()][newLoc.getCol()].isEmpty()) {
 				// if it's the same color as ours then it's not a valid move

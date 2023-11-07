@@ -18,7 +18,7 @@ class King extends Piece {
 		if(chebyshevDistance(loc, newLoc) > 1) {return false;}
 		
 		// if there is a piece in the board 
-		if(board.board[newLoc.getRow()][newLoc.getCol()].isEmpty()) {
+		if(!board.board[newLoc.getRow()][newLoc.getCol()].isEmpty()) {
 			// if the board tile we are moving to has another piece of the same color
 			// we can't move there 
 			if(board.board[newLoc.getRow()][newLoc.getCol()].color == color) {
