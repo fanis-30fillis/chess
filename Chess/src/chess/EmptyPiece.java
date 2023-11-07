@@ -14,7 +14,7 @@ public class EmptyPiece extends Piece {
 	// the object has no moves and therefore it doesn't 
 	// matter what it returns
 	@Override
-	boolean moveIsLegal(Location newLoc) {
-		return false;
+	String moveIsLegal(Location newLoc) {
+		return "no";
 	}
 }

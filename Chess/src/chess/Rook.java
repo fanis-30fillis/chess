@@ -7,21 +7,30 @@ class Rook extends Piece {
 		rep = c == Color.WHITE ? "R" : "r";
 	}
 
-	boolean moveIsLegal(Location newLoc) {
+	String moveIsLegal(Location newLoc) {
 
-		if(!standardLocationChecks(newLoc)) {
-			return false;
+		String result = standardLocationChecks(newLoc);
+		if(result.length() != 0) {
+			return result;
 		}
 
 		// if its not vertical or horizontal the movement is invalid
 		if(newLoc.getRow() != loc.getRow() && newLoc.getCol() != loc.getCol() ) {
-			return false;
+			return "The movement isn't horizontal or vertical";
 		}
 		
 		if(newLoc.getRow() == loc.getRow()) {
-			return board.freeHorizontalPath(loc, newLoc);
+			if(board.freeHorizontalPath(loc, newLoc)) {
+				return "";
+			} else {
+				return "The Horizontal path isn't free of obstacles";
+			}
 		} else {
-			return board.freeVerticalPath(loc, newLoc);
+			if(board.freeVerticalPath(loc, newLoc)) {
+				return "";
+			} else {
+				return "The Vertical path isn't free of obstacles";
+			}
 		}
 	}
 }

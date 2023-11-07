@@ -7,30 +7,42 @@ class Queen extends Piece {
 		rep = c == Color.WHITE ? "Q" : "q";
 	}
 
-	boolean moveIsLegal(Location newLoc) {
-
-		if(!standardLocationChecks(newLoc)) {
-			return false;
+	String moveIsLegal(Location newLoc) {
+		
+		String result = standardLocationChecks(newLoc);
+		if(result.length() != 0) {
+			return result;
 		}
 
 		// if the movement is not diagonal
 		if(Math.abs(newLoc.getRow() - loc.getRow()) != Math.abs(newLoc.getCol() - loc.getCol())) {
-			// if it's not horizontal then return false
+			// if it's not horizontal 
 			if(newLoc.getRow() != loc.getRow() && newLoc.getCol() != loc.getCol()) {
-				return false;
+				return "The movement isn't horizontal, vertical or valid diagonal";
 			}
 			// if the move is within the same row
 			if(newLoc.getRow() == loc.getRow() ) {
-				// check the horizontal path
-				return board.freeHorizontalPath(loc, newLoc);
+
+				if(board.freeHorizontalPath(loc, newLoc)) {
+					return "";
+				} else {
+					return "The horizontal path isn't empty";
+				}
 			} else {
 				// else the move is vertical
 				// check vertical path
-				return board.freeVerticalPath(loc, newLoc);
+				if(board.freeVerticalPath(loc, newLoc)) {
+					return "";
+				} else {
+					return "The vertical path isn't empty";
+				}
 			}
 		} else {
-			// the movement is diagonal
-			return checkDiagonalMovement(loc, newLoc);
+			if(checkDiagonalMovement(loc, newLoc)) {
+				return "";
+			} else {
+				return "The diagonal path isn't empty";
+			}
 		}
 	}
 

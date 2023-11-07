@@ -6,10 +6,11 @@ class Knight extends Piece {
 		rep = c == Color.WHITE ? "N" : "n";
 	}
 
-	boolean moveIsLegal(Location newLoc) {
+	String moveIsLegal(Location newLoc) {
 
-		if(!standardLocationChecks(newLoc)) {
-			return false;
+		String result = standardLocationChecks(newLoc);
+		if(result.length() != 0) {
+			return result;
 		}
 
 		// gets the horizontal and vertical distance to make the if
@@ -23,15 +24,15 @@ class Knight extends Piece {
 			// then it won't check it's color 
 			if(board.board[newLoc.getRow()][newLoc.getCol()].isEmpty() ||
 					board.board[newLoc.getRow()][newLoc.getCol()].color != this.color) {
-				return true;
+				return "";
 			} else {
 				// if there is an object in the board and it's the same color 
 				// as us then we can't move there
-				return false;
+				return "A piece of the same color is in the destination location";
 			}
 		} else {
 			// the destination location isn't one where we can jump to
-			return false;
+			return "Invalid destination location";
 		}
 	}
 }

@@ -28,29 +28,40 @@ abstract class Piece {
 				loc1.getCol() - loc2.getCol());
 	}
 	
-	boolean boundsCheck(Location loc) {
-		return (loc.getCol() >= 0 && loc.getCol() <= 7) &&
-				(loc.getRow() >= 0 && loc.getRow() <= 7);
+	String boundsCheck(Location loc) {
+		StringBuilder sb = new StringBuilder(100);
+		if(loc.getCol() < 0 || loc.getCol() > 7) {
+			sb.append("The column given is out of bounds: " + Integer.toString(loc.getCol()));
+		}
+		if(loc.getRow() < 0 || loc.getRow() > 7) {
+			sb.append("The row given is out of bounds: " + Integer.toString(loc.getRow()));
+		}
+		return sb.toString();
 	}
 	
 	// performs the standard location checks that are needed
 	// in every move operation
-	boolean standardLocationChecks(Location newLoc) {
+	String standardLocationChecks(Location newLoc) {
 		// if the newLocation is the same as the old one
 		if(newLoc.equals(loc)) {
-			return false;
+			return "The two positions are the same";
 		}
+		
+		String result = boundsCheck(newLoc);
 		// if we are out of bounds
-		if(!boundsCheck(newLoc)) {
-			return false;
+		if(result.length() != 0) {
+			return result;
 		}
+
+		result = checkFinalPosition(newLoc);
+
 		// if the final position is not valid
-		if(!checkFinalPosition(newLoc)) {
-			return false;
+		if(result.length() != 0) {
+			return result;
 		}
 
 		// if none of these triggered then return true
-		return true;
+		return "";
 	}
 	
 	boolean checkDiagonalMovement(Location loc, Location newLoc) {
@@ -77,21 +88,22 @@ abstract class Piece {
 		
 	}
 
-	boolean checkFinalPosition(Location newLoc) {
+	String checkFinalPosition(Location newLoc) {
 		if(board.board[newLoc.getRow()][newLoc.getCol()].isEmpty() ||
 			board.board[newLoc.getRow()][newLoc.getCol()].color != this.color) {
-			return true;
+			return "";
 		} else {
 			// if there is an object in the board and it's the same color 
 			// as us then we can't move there
-			return false;
+			return "There is a piece with the same color in the destination location";
 		}
 	}
 
 	void moveTo(Location newLoc) throws InvalidMoveException {
+		String checkMoveIsLegal = moveIsLegal(newLoc);
 		// checks if the move is Legal
-		if (!moveIsLegal(newLoc)) {
-			throw new InvalidMoveException("Invalid");
+		if (checkMoveIsLegal.length() != 0) {
+			throw new InvalidMoveException(checkMoveIsLegal);
 		}
 
 		if(!board.board[newLoc.getRow()][newLoc.getCol()].isEmpty()) {
@@ -104,7 +116,7 @@ abstract class Piece {
 	
 	// this function checks whether or not a move is legal 
 	// and is implemented in each piece 
-	abstract boolean moveIsLegal(Location newLoc);
+	abstract String moveIsLegal(Location newLoc);
 
 	@Override
 	public String toString() {

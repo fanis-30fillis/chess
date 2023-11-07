@@ -181,21 +181,21 @@ class Testing {
 		Exception e = assertThrows(Exception.class, () -> {
 			testBoard.board[3][7].moveTo(new Location(5,7));
 		});
-		String expectedString = "Invalid";
+		String expectedString = "Can't move this far";
 		String exceptionMessage = e.getMessage();
 		assertEquals(expectedString, exceptionMessage);
 
 		e = assertThrows(Exception.class, () -> {
 			testBoard.board[3][7].moveTo(new Location(4,6));
 		});
-		expectedString = "Invalid";
+		expectedString = "Can't move diagonally if an enemy piece isn't at this location";
 		exceptionMessage = e.getMessage();
 		assertEquals(expectedString, exceptionMessage);
 
 		e = assertThrows(Exception.class, () -> {
 			testBoard.board[3][7].moveTo(new Location(3,6));
 		});
-		expectedString = "Invalid";
+		expectedString = "A pawn can't move backwards or sideways";
 		exceptionMessage = e.getMessage();
 		assertEquals(expectedString, exceptionMessage);
 	}
@@ -224,7 +224,7 @@ class Testing {
 		Exception e = assertThrows(Exception.class, () -> {
 			testBoard.board[2][5].moveTo(new Location(0,1));
 		});
-		String expectedString = "Invalid";
+		String expectedString = "The movement isn't horizontal or vertical";
 		String exceptionMessage = e.getMessage();
 		assertEquals(expectedString, exceptionMessage);
 
@@ -234,14 +234,14 @@ class Testing {
 		e = assertThrows(Exception.class, () -> {
 			testBoard.board[2][5].moveTo(new Location(0,5));
 		});
-		expectedString = "Invalid";
+		expectedString = "There is a piece with the same color in the destination location";
 		exceptionMessage = e.getMessage();
 		assertEquals(expectedString, exceptionMessage);
 
 		e = assertThrows(Exception.class, () -> {
 			testBoard.board[2][5].moveTo(new Location(3,6));
 		});
-		expectedString = "Invalid";
+		expectedString = "The movement isn't horizontal or vertical";
 		exceptionMessage = e.getMessage();
 		assertEquals(expectedString, exceptionMessage);
 	}
@@ -267,27 +267,20 @@ class Testing {
 		testBoard.board[3][7].moveTo(new Location(0,4));
 		System.out.println(testBoard.toString());
 
-		Exception e = assertThrows(Exception.class, () -> {
-			testBoard.board[3][7].moveTo(new Location(0,1));
-		});
-		String expectedString = "Invalid";
-		String exceptionMessage = e.getMessage();
-		assertEquals(expectedString, exceptionMessage);
-
 		testBoard.board[0][7] = new King(new Location(0,7), Color.WHITE, testBoard);
 		System.out.println(testBoard.toString());
 
-		e = assertThrows(Exception.class, () -> {
-			testBoard.board[3][7].moveTo(new Location(0,7));
+		Exception e = assertThrows(Exception.class, () -> {
+			testBoard.board[0][4].moveTo(new Location(0,7));
 		});
-		expectedString = "Invalid";
-		exceptionMessage = e.getMessage();
+		String expectedString = "There is a piece with the same color in the destination location";
+		String exceptionMessage = e.getMessage();
 		assertEquals(expectedString, exceptionMessage);
 
 		e = assertThrows(Exception.class, () -> {
-			testBoard.board[3][7].moveTo(new Location(1,6));
+			testBoard.board[0][4].moveTo(new Location(1,6));
 		});
-		expectedString = "Invalid";
+		expectedString = "The movement isn't horizontal, vertical or valid diagonal";
 		exceptionMessage = e.getMessage();
 		assertEquals(expectedString, exceptionMessage);
 	}
@@ -324,14 +317,14 @@ class Testing {
 		Exception e = assertThrows(Exception.class, () -> {
 			testBoard.board[1][5].moveTo(new Location(0,1));
 		});
-		String expectedString = "Invalid";
+		String expectedString = "The destination location is too far";
 		String exceptionMessage = e.getMessage();
 		assertEquals(expectedString, exceptionMessage);
 
 		e = assertThrows(Exception.class, () -> {
 			testBoard.board[1][5].moveTo(new Location(5,1));
 		});
-		expectedString = "Invalid";
+		expectedString = "The destination location is too far";
 		exceptionMessage = e.getMessage();
 		assertEquals(expectedString, exceptionMessage);
 
@@ -373,24 +366,38 @@ class Testing {
 		assertEquals("B",testBoard.board[1][5].rep);
 		System.out.println(testBoard.toString());
 
+
+
 		Exception e = assertThrows(Exception.class, () -> {
 			testBoard.board[1][5].moveTo(new Location(0,1));
 		});
-		String expectedString = "Invalid";
+		String expectedString = "The final location is not diagonal to the starting one";
 		String exceptionMessage = e.getMessage();
 		assertEquals(expectedString, exceptionMessage);
+
 
 		e = assertThrows(Exception.class, () -> {
 			testBoard.board[1][5].moveTo(new Location(7,7));
 		});
-		expectedString = "Invalid";
+		expectedString = "The final location is not diagonal to the starting one";
 		exceptionMessage = e.getMessage();
 		assertEquals(expectedString, exceptionMessage);
 
 		e = assertThrows(Exception.class, () -> {
 			testBoard.board[1][5].moveTo(new Location(1,6));
 		});
-		expectedString = "Invalid";
+		expectedString = "The final location is not diagonal to the starting one";
+		exceptionMessage = e.getMessage();
+		assertEquals(expectedString, exceptionMessage);
+
+		testBoard.board[2][6] = new Bishop(new Location(2,6), Color.BLACK, testBoard);
+		assertEquals("b",testBoard.board[2][6].rep);
+		System.out.println(testBoard.toString());
+
+		e = assertThrows(Exception.class, () -> {
+			testBoard.board[1][5].moveTo(new Location(3,7));
+		});
+		expectedString = "A piece exists between the two locations";
 		exceptionMessage = e.getMessage();
 		assertEquals(expectedString, exceptionMessage);
 	}
@@ -424,14 +431,14 @@ class Testing {
 		Exception e = assertThrows(Exception.class, () -> {
 			testBoard.board[3][3].moveTo(new Location(3,4));
 		});
-		String expectedString = "Invalid";
+		String expectedString = "Invalid destination location";
 		String exceptionMessage = e.getMessage();
 		assertEquals(expectedString, exceptionMessage);
 
 		e = assertThrows(Exception.class, () -> {
 			testBoard.board[3][3].moveTo(new Location(3,6));
 		});
-		expectedString = "Invalid";
+		expectedString = "Invalid destination location";
 		exceptionMessage = e.getMessage();
 		assertEquals(expectedString, exceptionMessage);
 	}

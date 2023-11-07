@@ -42,7 +42,7 @@ public class Board {
 		// on it's own
 		while(++currentRow < upperLimitRow && --currentCol > upperLimitCol) {
 			// if a Piece exists on this board then the move can't be performed
-			if(board[currentRow][currentCol].isEmpty()) {
+			if(!board[currentRow][currentCol].isEmpty()) {
 				return false;
 			}
 		}
@@ -98,9 +98,9 @@ public class Board {
 		}
 
 		// for each position in between them
-		for(int cnt = lowerLimit; cnt < upperLimit; cnt++) {
+		for(int cnt = lowerLimit; cnt <= upperLimit; cnt++) {
 			// if there is an obstacle return false
-			if(board[cnt][from.getCol()].isEmpty()) {
+			if(!board[cnt][from.getCol()].isEmpty()) {
 				return false;
 			}
 		}
@@ -125,7 +125,7 @@ public class Board {
 		// for each of the intermediate positions
 		for(int cnt = lowerLimit; cnt < upperLimit; cnt++) {
 			// if a piece exists there return false
-			if(board[from.getRow()][cnt].isEmpty()) {
+			if(!board[from.getRow()][cnt].isEmpty()) {
 				return false;
 			}
 		}
@@ -140,7 +140,6 @@ public class Board {
 		// initializes the array
 		for(int row = 0; row < 8; row++) {
 			for(int col=0; col < 8; col++) {
-				// TODO use optional class
 				try {
 					board[row][col] = new EmptyPiece(new Location(row, col), this);
 				} catch (InvalidLocationException e) {
@@ -196,20 +195,23 @@ public class Board {
 		}
 	}
 	
-	private boolean checkValidLocation (Location loc) {
-		if(loc.getRow() < 0 || loc.getCol() < 0) {
-			return false;
+	private String checkValidLocation (Location loc) {
+		StringBuilder resultingString = new StringBuilder(90);
+		if(loc.getRow() < 0 || loc.getRow() > 7 ) {
+			resultingString.append("Row must be within the [0,7] range inclusive");
+
 		}
-		if(loc.getRow() > 7 || loc.getCol() > 7) {
-			return false;
+		if(loc.getCol() < 0 || loc.getCol() > 7) {
+			resultingString.append("Column must be within the [0,7] range inclusive");
 		}
-		return true;
+		return resultingString.toString();
 	}
 
 	// returns the piece at that position
 	public Piece getPieceAt(Location loc) throws InvalidLocationException {
-		if(!checkValidLocation(loc)) {
-			throw new InvalidLocationException("Invalid");
+		String resultingString = checkValidLocation(loc);
+		if(resultingString.length() > 0) {
+			throw new InvalidLocationException(resultingString);
 		}
 		return board[loc.getRow()][loc.getCol()];
 	}

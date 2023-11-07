@@ -6,19 +6,24 @@ class Bishop extends Piece {
 		rep = c == Color.WHITE ? "B" : "b";
 	}
 
-	boolean moveIsLegal(Location newLoc) {
-		if(!standardLocationChecks(newLoc)) {
-			return false;
+	String moveIsLegal(Location newLoc) {
+		String result = standardLocationChecks(newLoc);
+		if(result.length() != 0) {
+			return result;
 		}
 
 		// if it's not diagonal then we can't move there
 		if(Math.abs(loc.getRow() - newLoc.getRow()) !=
 				Math.abs(loc.getCol() - newLoc.getCol())) {
-			return false;
+			return "The final location is not diagonal to the starting one";
 		}
 
 		// since the movement is diagonal determine what sort 
 		// of diagonal it is
-		return checkDiagonalMovement(loc, newLoc);
+		if(checkDiagonalMovement(loc, newLoc)) {
+			return "";
+		} else {
+			return "A piece exists between the two locations";
+		}
 	}
 }

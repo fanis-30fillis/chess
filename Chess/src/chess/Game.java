@@ -212,7 +212,7 @@ public class Game {
 		try {
 			p.moveTo(loc2);
 		} catch (InvalidMoveException e) {
-			System.out.println("Invalid Move");
+			System.out.println(e.getMessage());
 			return;
 		}
 
