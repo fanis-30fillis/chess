@@ -293,7 +293,7 @@ class Testing {
 	}
 	
 	@Test
-	void testKingMoves() throws InvalidMoveException, InvalidLocationException {
+	void testKingMovements() throws InvalidMoveException, InvalidLocationException {
 		Board testBoard = new Board();
 		for(int row = 0; row < 8; row++) {
 			for(int col = 0; col < 8; col++) {
@@ -307,7 +307,38 @@ class Testing {
 		assertTrue(testBoard.board[1][5].isEmpty());
 		assertEquals("K",testBoard.board[2][5].rep);
 		System.out.println(testBoard.toString());
+		testBoard.board[2][5].moveTo(new Location(2,6));
+		assertTrue(testBoard.board[2][5].isEmpty());
+		assertEquals("K",testBoard.board[2][6].rep);
+		System.out.println(testBoard.toString());
+		testBoard.board[1][5] = new Rook(new Location(1,5), Color.BLACK, testBoard);
+		testBoard.board[2][6].moveTo(new Location(2,5));
+		assertTrue(testBoard.board[2][6].isEmpty());
+		assertEquals("K",testBoard.board[2][5].rep);
+		System.out.println(testBoard.toString());
+		testBoard.board[2][5].moveTo(new Location(1,5));
+		assertTrue(testBoard.board[1][6].isEmpty());
+		assertEquals("K",testBoard.board[1][5].rep);
+		System.out.println(testBoard.toString());
 
+		Exception e = assertThrows(Exception.class, () -> {
+			testBoard.board[1][5].moveTo(new Location(0,1));
+		});
+		String expectedString = "Invalid";
+		String exceptionMessage = e.getMessage();
+		assertEquals(expectedString, exceptionMessage);
+
+		e = assertThrows(Exception.class, () -> {
+			testBoard.board[1][5].moveTo(new Location(5,1));
+		});
+		expectedString = "Invalid";
+		exceptionMessage = e.getMessage();
+		assertEquals(expectedString, exceptionMessage);
+
+		testBoard.board[1][5].moveTo(new Location(0,4));
+		assertTrue(testBoard.board[1][5].isEmpty());
+		assertEquals("K",testBoard.board[0][4].rep);
+		System.out.println(testBoard.toString());
 	}
 	
 }
