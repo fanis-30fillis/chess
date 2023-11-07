@@ -156,16 +156,20 @@ public class Game {
 			this.colorMoves = Color.WHITE;
 		}
 		
-		// the inequity comparison doesn't take into account the fact that both 
-		// of the lengths are counted starting from 1 and not from 0
-		for(int cnt = 0; cnt < whiteMoves.length+blackMoves.length-1; cnt++) {
+		int wCnt = 0;
+		int bCnt = 0;
+		while(wCnt < whiteMoves.length || bCnt < blackMoves.length) {
 			// if the last bit of the number is enabled then it's an odd number
 			if(colorMoves == Color.WHITE) {
 				// division by two using right shifting by one bit
-				handleMove(whiteMoves[cnt >> 1]);
+				handleMove(whiteMoves[wCnt]);
+				wCnt++;
 			} else {
-				// division by two using right shifting by one bit
-				handleMove(blackMoves[cnt >> 1]);
+				if(bCnt < blackMoves.length) {
+					// division by two using right shifting by one bit
+					handleMove(blackMoves[bCnt]);
+					bCnt++;
+				}
 			}
 		}
 
