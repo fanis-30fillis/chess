@@ -3,7 +3,7 @@ package chess;
 public class Location {
 	private int row;
 	private int col;
-	String loc;
+	private String loc;
 	Location(int row, int col) throws InvalidLocationException {
 		// check whether or not the row is out array bounds
 		if(row < 0 || row > 7) {

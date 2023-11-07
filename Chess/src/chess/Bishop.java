@@ -6,9 +6,15 @@ class Bishop extends Piece {
 		rep = c == Color.WHITE ? "B" : "b";
 	}
 
+	// checks whether or not the move is legal
 	String moveIsLegal(Location newLoc) {
+
+		// gets the resulting string (possibly an error message)
+		// after performing standard checks
 		String result = standardLocationChecks(newLoc);
+		// if the string is non empty
 		if(result.length() != 0) {
+			// returns the messages returned
 			return result;
 		}
 

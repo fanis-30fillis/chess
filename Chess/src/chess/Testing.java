@@ -33,7 +33,7 @@ class Testing {
 		} catch (InvalidLocationException e) {
 			return "-1";
 		}
-		return loc.loc;
+		return loc.toString();
 	}
 	private String getLocationWithErrHandling(String locat) {
 		Location loc;
@@ -42,7 +42,7 @@ class Testing {
 		} catch (InvalidLocationException e) {
 			return "-1";
 		}
-		return loc.loc;
+		return loc.toString();
 	}
 
 

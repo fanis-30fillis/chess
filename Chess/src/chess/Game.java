@@ -190,27 +190,38 @@ public class Game {
 			return;
 		}
 
+		// gets the piece in the board
 		Piece p = gameBoard.board[loc1.getRow()][loc1.getCol()];
 
+		// if no piece is in this position
 		if(p.isEmpty()) {
+			// print the appropriate message to the user
 			System.out.println("No piece exists at this point");
 			return;
 		}
+
+		// if the piece isn't the user's
 		if(p.color != colorMoves) {
+			// print the appropriate message 
 			System.out.println("That Piece isn't yours");
 			return;
 		}
 
 		try {
+			// moves to the location
 			p.moveTo(loc2);
 		} catch (InvalidMoveException e) {
+			// prints the correct message
 			System.out.println(e.getMessage());
 			return;
 		}
 
+		// if the move is made by the white player
 		if(colorMoves == Color.WHITE) {
+			// append it to the moves made by the white player
 			whiteMoves.append(move);
 		} else {
+			// else append it to the moves made by the white player
 			blackMoves.append(move);
 		}
 
@@ -220,31 +231,40 @@ public class Game {
 	
 	private void saveGame() {
 		System.out.print("Input File to save to: ");
+		// gets the user's input
 		String filename = scan.nextLine();
 		BufferedWriter bw;
 		try {
+			// creates a new BufferedWriter from the filename
 			bw = new BufferedWriter(new FileWriter(filename));
 		} catch(Exception e) {
+			// if an exception occured then update the user
 			System.out.println("Unable to create file, try a different filename");
 			return;
 		}
+
 		try {
+			// adds the moves to the file
+			// first the white players moved
 			bw.append(whiteMoves.toString()); bw.append("\n");
+			// then the black player's move separated by a newline
 			bw.append(blackMoves.toString()); bw.append("\n");
 		} catch (IOException e) {
+			// if an error occured inform the user
 			System.out.println("Error occured when writing to file");
 		}
 
 		try {
+			// tries to close the BufferedWriter
 			bw.close();
 		} catch (IOException e) {
+			// if an err occured informs the user
 			System.out.println("Error occured when closing the BufferedWriter");
 		}
 	}
 
 	protected void play() {
 		this.gameBoard.init();
-//		final Scanner scan = new Scanner(System.in);
 
 		while(true) {
 			System.out.println(this.gameBoard.toString());
@@ -258,6 +278,7 @@ public class Game {
 
 			// if we have a command to the program
 			if(in.charAt(0) == ':') {
+				// switch that acts according to what the user wants
 				switch(in.charAt(1)) {
 				case 'h':
 					printHelp();
@@ -272,16 +293,22 @@ public class Game {
 				if(in.charAt(1) == 'x') {
 					System.out.println("Goodbye");
 					break;
+				} else {
+					System.out.println("Invalid operation given");
 				}
 				continue;
 			} 
 
+			// if the length of the command is correct
 			if(in.length() == 4) {
+				// perform the command
 				handleMove(in);
 			} else {
+				// else it's not a valid move
 				System.out.println("Invalid move length");
 			}
 		}
+		// closes the System.in scanner
 		scan.close();
 	}
 	

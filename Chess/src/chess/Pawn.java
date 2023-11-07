@@ -2,7 +2,7 @@ package chess;
 
 class Pawn extends Piece {
 
-	boolean hasMoved = false;
+	private boolean hasMoved = false;
 
 	Pawn (Location loc, Color c, Board b) {
 		// calls the super constructor so that we don't repeat code

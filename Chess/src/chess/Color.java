@@ -5,7 +5,7 @@ public enum Color {
 	BLACK,
 	WHITE;
 	// changes the current value of the enum
-	public Color nextColor() {
+	Color nextColor() {
 		// if the current value is BLACK return WHITE
 		if(this == BLACK) {
 			return WHITE;

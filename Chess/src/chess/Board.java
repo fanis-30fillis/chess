@@ -16,10 +16,13 @@ public class Board {
 		board[from.getRow()][from.getCol()] = new EmptyPiece(from, this);
 	}
 	
+	// there is no actual difference between the method movePieceCapturing
+	// and movePiece
 	void movePieceCapturing(Location from, Location to) {
 		movePiece(from, to);
 	}
 
+	// returns true if we have an antidiagonal path without an obstacle
 	boolean freeAntidiagonalPath(Location from, Location to) 
 	{
 		// assumes the starting row and column are the to position
@@ -82,6 +85,8 @@ public class Board {
 		return true;
 	}
 	
+	// returns true if the path from the starting location to the 
+	// ending location doesn't have any pieces
 	boolean freeVerticalPath(Location from, Location to)
 	{
 		// since it's vertical we only care about the rows
@@ -109,6 +114,8 @@ public class Board {
 		return true;
 	}
 
+	// returns true if the path from the starting location to the 
+	// ending location doesn't have any pieces
 	boolean freeHorizontalPath(Location from, Location to)
 	{
 		// we only care about the columns since it's horizontal
@@ -197,13 +204,18 @@ public class Board {
 	
 	private String checkValidLocation (Location loc) {
 		StringBuilder resultingString = new StringBuilder(90);
+		// if the row is out of bounds
 		if(loc.getRow() < 0 || loc.getRow() > 7 ) {
+			// append the error message to inform the user
 			resultingString.append("Row must be within the [0,7] range inclusive");
-
 		}
+
+		// if the column is out of bounds
 		if(loc.getCol() < 0 || loc.getCol() > 7) {
+			// append the error message to inform the user
 			resultingString.append("Column must be within the [0,7] range inclusive");
 		}
+
 		return resultingString.toString();
 	}
 
