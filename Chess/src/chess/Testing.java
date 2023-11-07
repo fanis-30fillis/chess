@@ -434,7 +434,6 @@ class Testing {
 		expectedString = "Invalid";
 		exceptionMessage = e.getMessage();
 		assertEquals(expectedString, exceptionMessage);
-
 	}
 }
 

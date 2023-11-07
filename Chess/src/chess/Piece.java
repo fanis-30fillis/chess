@@ -33,16 +33,23 @@ abstract class Piece {
 				(loc.getRow() >= 0 && loc.getRow() <= 7);
 	}
 	
+	// performs the standard location checks that are needed
+	// in every move operation
 	boolean standardLocationChecks(Location newLoc) {
+		// if the newLocation is the same as the old one
 		if(newLoc.equals(loc)) {
 			return false;
 		}
+		// if we are out of bounds
 		if(!boundsCheck(newLoc)) {
 			return false;
 		}
+		// if the final position is not valid
 		if(!checkFinalPosition(newLoc)) {
 			return false;
 		}
+
+		// if none of these triggered then return true
 		return true;
 	}
 	
