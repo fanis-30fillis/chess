@@ -7,14 +7,14 @@ class Queen extends Piece {
 		rep = c == Color.WHITE ? "Q" : "q";
 	}
 
-	void moveTo(Location newLoc) throws InvalidMoveException {
-		if(!moveIsLegal(newLoc)) {
-			throw new InvalidMoveException("Invalid move");
-		}
-		if(board.board[newLoc.getRow()][newLoc.getCol()] == null) {board.movePiece(loc, newLoc);}
-		else {board.movePieceCapturing(loc, newLoc);}
-		loc = newLoc;
-	}
+//	void moveTo(Location newLoc) throws InvalidMoveException {
+//		if(!moveIsLegal(newLoc)) {
+//			throw new InvalidMoveException("Invalid move");
+//		}
+//		if(board.board[newLoc.getRow()][newLoc.getCol()].isEmpty()) {board.movePiece(loc, newLoc);}
+//		else {board.movePieceCapturing(loc, newLoc);}
+//		loc = newLoc;
+//	}
 
 	boolean moveIsLegal(Location newLoc) {
 

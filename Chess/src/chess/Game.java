@@ -88,40 +88,58 @@ public class Game {
 		try {
 			fileScan = new Scanner(fileToRead);
 		} catch (FileNotFoundException e) {
-//			 if the file to load from doesn't exist then print a message to the user
+			// if the file to load from doesn't exist then print a message to the user
 			System.out.println("Couldn't find the file to load from");
 			return;
 		} 
 
 		String blackMoveRawString;
 		String whiteMoveRawString;
+		// if we have a first line take it as the white moves
 		if(fileScan.hasNextLine()) {
 			whiteMoveRawString = fileScan.nextLine();
 		} else {
+			// else inform the user
 			System.out.println("File is empty");
 			fileScan.close();
 			return;
 		}
 
+		// if a file has a next line
 		if(fileScan.hasNextLine()) {
 			blackMoveRawString = fileScan.nextLine();
 		} else {
-			System.out.println("File is incomplete");
+			// else the file is incomplete and it's not usable
+			System.out.println("Save file is incomplete");
 			fileScan.close();
 			return;
 		}
 		fileScan.close();
 
-		if(whiteMoveRawString.length() % 4 != 0 || blackMoveRawString.length() % 4 != 0 ) {
-			System.out.println("Savefile is Malformed");
+		// if the files have an appropriate length then 
+		// inform the user that the file is malformed
+		if(whiteMoveRawString.length() % 4 != 0 || 
+				blackMoveRawString.length() % 4 != 0 ) {
+			System.out.println("Save file is Malformed");
 			return;
 		} 
+		
+		// if the lengths are different and the difference is not one move 
+		// from the white then the save file has been tampered
+		if(whiteMoveRawString.length() != blackMoveRawString.length() &&
+				(whiteMoveRawString.length() - 4) != blackMoveRawString.length()) {
+			System.out.println("Save file is Malformed");
+			return;
+		}
 
+		// parses the moves into 4 letter strings
 		String[] whiteMoves = parseMoveString(whiteMoveRawString);
 		String[] blackMoves = parseMoveString(blackMoveRawString);
 
 		// determines the next move player based on the moves that have been played
 		if(whiteMoves.length > blackMoves.length) {
+			// if the are more white moves played than black then the first move is
+			// going to be played by the black player
 			this.colorMoves = Color.BLACK;
 		} else {
 			this.colorMoves = Color.WHITE;
@@ -157,6 +175,7 @@ public class Game {
 		Location loc1;
 		Location loc2;
 		try {
+			// gets the mew location from the substring
 			loc1 = new Location(move.substring(0, 2));
 			loc2 = new Location(move.substring(2, 4));
 		} catch (InvalidLocationException e) {
@@ -166,7 +185,7 @@ public class Game {
 
 		Piece p = gameBoard.board[loc1.getRow()][loc1.getCol()];
 
-		if(p == null) {
+		if(p.isEmpty()) {
 			System.out.println("No piece exists at this point");
 			return;
 		}

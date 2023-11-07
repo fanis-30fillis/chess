@@ -67,6 +67,11 @@ class Testing {
 	@Test
 	void boardTesting() throws InvalidLocationException, InvalidMoveException {
 		Board testBoard = new Board();
+		for(int row = 0; row < 8; row++) {
+			for(int col = 0; col < 8; col++) {
+				testBoard.board[row][col] = new EmptyPiece(new Location(row, col), testBoard);
+			}
+		}
 		testBoard.board[5][5] = new Bishop(new Location(5,5), Color.WHITE, testBoard);
 		System.out.println(testBoard.toString());
 		assertEquals("f6", testBoard.board[5][5].loc.toString());
@@ -132,7 +137,7 @@ class Testing {
 		e = assertThrows(Exception.class, () -> {
 			new Location("a0");
 		});
-		expectedString = "Invalid row indicator";
+		expectedString = "Invalid row indicator: 0";
 		exceptionMessage = e.getMessage();
 		assertEquals(expectedString, exceptionMessage);
 
@@ -140,7 +145,9 @@ class Testing {
 			new Location("x0");
 		});
 
-		expectedString = "Invalid column indicator";
+		expectedString = """
+				Invalid column indicator: x
+				Invalid row indicator: 0""";
 		exceptionMessage = e.getMessage();
 		assertEquals(expectedString, exceptionMessage);
 		
@@ -148,7 +155,7 @@ class Testing {
 			new Location("a9");
 		});
 
-		expectedString = "Invalid row indicator";
+		expectedString = "Invalid row indicator: 9";
 		exceptionMessage = e.getMessage();
 		assertEquals(expectedString, exceptionMessage);
 
@@ -156,7 +163,9 @@ class Testing {
 			new Location("i1");
 		});
 
-		expectedString = "Invalid column indicator";
+		expectedString = """
+				Invalid column indicator: i
+				""";
 		exceptionMessage = e.getMessage();
 		assertEquals(expectedString, exceptionMessage);
 

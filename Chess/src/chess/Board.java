@@ -5,25 +5,32 @@ public class Board {
 	// creates the array that will hold all the pieces
 	final Piece board[][] = new Piece[8][8];
 
+	// moves the piece from the starting location to 
+	// the last one assuming that it's checked
 	void movePiece(Location from, Location to) {
+		// grabs the piece from the starting location 
 		Piece p = board[from.getRow()][from.getCol()];
+		// moves it to it's new place
 		board[to.getRow()][to.getCol()] = p;
-		board[from.getRow()][from.getCol()] = null;
+		// removes it from it's previous place
+		board[from.getRow()][from.getCol()] = new EmptyPiece(from, this);
 	}
 	
 	void movePieceCapturing(Location from, Location to) {
-		Piece p = board[from.getRow()][from.getCol()];
-		board[to.getRow()][to.getCol()] = p;
-		board[from.getRow()][from.getCol()] = null;
+		movePiece(from, to);
 	}
 
 	boolean freeAntidiagonalPath(Location from, Location to) 
 	{
+		// assumes the starting row and column are the to position
 		int currentRow = to.getRow();
 		int currentCol = to.getCol();
+		// assumes that the from positions are upper than the to
+		// and makes them the upper limits initially
 		int upperLimitRow = from.getRow();
 		int upperLimitCol = from.getCol();
 
+		// if the destination location is higher than the current one
 		if(from.getRow() < to.getRow()) {
 			currentRow = from.getRow();
 			currentCol = from.getCol();
@@ -35,7 +42,7 @@ public class Board {
 		// on it's own
 		while(++currentRow < upperLimitRow && --currentCol > upperLimitCol) {
 			// if a Piece exists on this board then the move can't be performed
-			if(board[currentRow][currentCol] != null) {
+			if(board[currentRow][currentCol].isEmpty()) {
 				return false;
 			}
 		}
@@ -43,13 +50,17 @@ public class Board {
 		return true;
 	}
 
+	// checks whether or not a Diagonal path is free from any 
+	// obstacles
 	boolean freeDiagonalPath(Location from, Location to) 
 	{
+		// initially assumes that the from location is upper than the to
 		int currentRow = to.getRow();
 		int currentCol = to.getCol();
 		int upperLimitRow = from.getRow();
 		int upperLimitCol = from.getCol();
 
+		// if the destination is higher than the initial position
 		if(from.getRow() < to.getRow()) {
 			currentRow = from.getRow();
 			currentCol = from.getCol();
@@ -57,58 +68,86 @@ public class Board {
 			upperLimitCol = to.getCol();
 		}
 
+		// from the lower limits to the higher limits
 		while(++currentRow < upperLimitRow && ++currentCol < upperLimitCol) {
-			if(board[currentRow][currentCol] != null) {
+			// if there is a pawn in the middle (regardless of color)
+			if(!board[currentRow][currentCol].isEmpty()) {
+				// it's not free
 				return false;
 			}
 		}
 
+		// if it hasn't found an object between the positions then we can make 
+		// the move
 		return true;
 	}
 	
 	boolean freeVerticalPath(Location from, Location to)
 	{
+		// since it's vertical we only care about the rows
+		// assumes that the destination is higher than the 
+		// source
 		int lowerLimit = to.getRow() + 1; 
 		int upperLimit = from.getRow() - 1;
 
+		// if the source is higher than the destination flip 
+		// the limits
 		if(from.getRow() < to.getRow()) {
 			lowerLimit = from.getRow() + 1; 
 			upperLimit = to.getRow() - 1;
 		}
 
+		// for each position in between them
 		for(int cnt = lowerLimit; cnt < upperLimit; cnt++) {
-			if(board[cnt][from.getCol()] != null) {
+			// if there is an obstacle return false
+			if(board[cnt][from.getCol()].isEmpty()) {
 				return false;
 			}
 		}
 
+		// since it hasn't returned false then it's free
 		return true;
 	}
 
 	boolean freeHorizontalPath(Location from, Location to)
 	{
+		// we only care about the columns since it's horizontal
+		// assumes that the rightmost piece is the from
 		int lowerLimit = to.getCol() + 1; 
 		int upperLimit = from.getCol() - 1;
 
+		// if the starting point is the 
 		if(from.getCol() < to.getCol()) {
 			lowerLimit = from.getCol() + 1; 
 			upperLimit = to.getCol() - 1;
 		}
 
+		// for each of the intermediate positions
 		for(int cnt = lowerLimit; cnt < upperLimit; cnt++) {
-			if(board[from.getRow()][cnt] != null) {
+			// if a piece exists there return false
+			if(board[from.getRow()][cnt].isEmpty()) {
 				return false;
 			}
 		}
 
+		// since it hasn't returned false no objects exist between
+		// the target and the source
 		return true;
 	}
 
 	void init()
 	{
+		// initializes the array
 		for(int row = 0; row < 8; row++) {
 			for(int col=0; col < 8; col++) {
-				board[row][col] = null;
+				// TODO use optional class
+				try {
+					board[row][col] = new EmptyPiece(new Location(row, col), this);
+				} catch (InvalidLocationException e) {
+					// it should never throw this exception
+					System.out.println("Fatal Error: " + e.getMessage());
+					return;
+				}
 			}
 		}
 
@@ -168,7 +207,6 @@ public class Board {
 	}
 
 	// returns the piece at that position
-	// could be null
 	public Piece getPieceAt(Location loc) throws InvalidLocationException {
 		if(!checkValidLocation(loc)) {
 			throw new InvalidLocationException("Invalid");
@@ -184,7 +222,7 @@ public class Board {
 		for(int row = 8; row > 0; row--) {
 			builder.append(Integer.toString(row));
 			for(int col = 0; col < 8; col++) {
-				if(this.board[row-1][col] == null) {
+				if(this.board[row-1][col].isEmpty()) {
 					builder.append(" ");
 				} else {
 					builder.append(board[row-1][col].rep);

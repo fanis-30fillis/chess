@@ -24,12 +24,19 @@ public class Location {
 	}
 
 	Location(String loc) throws InvalidLocationException {
+
+		// 70 char string builder
+		StringBuilder errorMessage = new StringBuilder(70);
 		if(loc.charAt(0) < 'a' || loc.charAt(0) > 'h') {
-			throw new InvalidLocationException("Invalid column indicator");
+			errorMessage.append("Invalid column indicator: " + loc.charAt(0) + "\n");
 		}
 
 		if (loc.charAt(1) < '1' || loc.charAt(1) > '8') {
-			throw new InvalidLocationException("Invalid row indicator");
+			errorMessage.append("Invalid row indicator: " + loc.charAt(1));
+		}
+
+		if(errorMessage.length() > 0) {
+			throw new InvalidLocationException(errorMessage.toString());
 		}
 
 		this.loc = loc;
@@ -54,5 +61,4 @@ public class Location {
 	public boolean equals(Location loc) {
 		return row == loc.getRow() && col == loc.getCol();
 	}
-
 }

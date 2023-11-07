@@ -7,14 +7,14 @@ class King extends Piece {
 		rep = c == Color.WHITE ? "K" : "k";
 	}
 
-	void moveTo(Location newLoc) throws InvalidMoveException {
-		if(!moveIsLegal(newLoc)) {
-			throw new InvalidMoveException("Invalid move");
-		}
-		if(board.board[newLoc.getRow()][newLoc.getCol()] == null) {board.movePiece(loc, newLoc);}
-		else {board.movePieceCapturing(loc, newLoc);}
-		loc = newLoc;
-	}
+//	void moveTo(Location newLoc) throws InvalidMoveException {
+//		if(!moveIsLegal(newLoc)) {
+//			throw new InvalidMoveException("Invalid move");
+//		}
+//		if(board.board[newLoc.getRow()][newLoc.getCol()].isEmpty()) {board.movePiece(loc, newLoc);}
+//		else {board.movePieceCapturing(loc, newLoc);}
+//		loc = newLoc;
+//	}
 
 	boolean moveIsLegal(Location newLoc) {
 
@@ -31,7 +31,7 @@ class King extends Piece {
 		}
 		
 		// if there is a piece in the board 
-		if(board.board[newLoc.getRow()][newLoc.getCol()] != null) {
+		if(board.board[newLoc.getRow()][newLoc.getCol()].isEmpty()) {
 			// if the board tile we are moving to has another piece of the same color
 			// we can't move there 
 			if(board.board[newLoc.getRow()][newLoc.getCol()].color == color) {

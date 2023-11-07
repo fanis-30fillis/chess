@@ -8,13 +8,14 @@ class Pawn extends Piece {
 	}
 
 	void moveTo(Location newLoc) throws InvalidMoveException {
-		if(!moveIsLegal(newLoc)) {
-			throw new InvalidMoveException("Invalid move");
-		}
+		super.moveTo(newLoc);
 		hasMoved = true;
-		if(board.board[newLoc.getRow()][newLoc.getCol()] == null) {board.movePiece(loc, newLoc);}
-		else {board.movePieceCapturing(loc, newLoc);}
-		loc = newLoc;
+//		if(!moveIsLegal(newLoc)) {
+//			throw new InvalidMoveException("Invalid move");
+//		}
+//		if(board.board[newLoc.getRow()][newLoc.getCol()].isEmpty()) {board.movePiece(loc, newLoc);}
+//		else {board.movePieceCapturing(loc, newLoc);}
+//		loc = newLoc;
 	}
 
 	boolean moveIsLegal(Location newLoc) 
@@ -46,8 +47,9 @@ class Pawn extends Piece {
 				return false;
 			}
 
+			if(board.board[newLoc.getRow()][newLoc.getCol()].isEmpty()) {return true;}
 			// if a piece exists on the board
-			if(board.board[newLoc.getRow()][newLoc.getCol()] != null) {
+			if(!board.board[newLoc.getRow()][newLoc.getCol()].isEmpty()) {
 				// if it's the same color as ours then it's not a valid move
 				if (board.board[newLoc.getRow()][newLoc.getCol()].color == color) {
 					return false;

@@ -18,6 +18,10 @@ abstract class Piece {
 		this.board = board;
 		this.loc = loc;
 	}
+
+	boolean isEmpty() {
+		return false;
+	}
 	
 	int chebyshevDistance(Location loc1, Location loc2) {
 		return Math.max(Math.abs(loc1.getRow() - loc2.getRow()),
@@ -43,7 +47,7 @@ abstract class Piece {
 	}
 
 	boolean checkFinalPosition(Location newLoc) {
-		if(board.board[newLoc.getRow()][newLoc.getCol()] == null ||
+		if(board.board[newLoc.getRow()][newLoc.getCol()].isEmpty() ||
 			board.board[newLoc.getRow()][newLoc.getCol()].color != this.color) {
 			return true;
 		} else {
@@ -59,7 +63,7 @@ abstract class Piece {
 			throw new InvalidMoveException("Invalid");
 		}
 
-		if(board.board[newLoc.getRow()][newLoc.getCol()] != null) {
+		if(!board.board[newLoc.getRow()][newLoc.getCol()].isEmpty()) {
 			board.movePieceCapturing(loc, newLoc);
 		} else {
 			board.movePiece(loc, newLoc);
