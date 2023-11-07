@@ -5,10 +5,12 @@ public class Location {
 	private int col;
 	String loc;
 	Location(int row, int col) throws InvalidLocationException {
+		// check whether or not the row is out array bounds
 		if(row < 0 || row > 7) {
 			throw new InvalidLocationException("Given row is out of bounds");
 		}
 
+		// check whether or not the column is out of bounds
 		if(col < 0 || col > 7) {
 			throw new InvalidLocationException("Given column is out of bounds");
 		}
@@ -27,15 +29,22 @@ public class Location {
 
 		// 70 char string builder
 		StringBuilder errorMessage = new StringBuilder(70);
+		// if the column indicator is not in the correct range
 		if(loc.charAt(0) < 'a' || loc.charAt(0) > 'h') {
+			// add to the error message to inform the user
 			errorMessage.append("Invalid column indicator: " + loc.charAt(0) + "\n");
 		}
 
+		// if the row indicator is not correct
 		if (loc.charAt(1) < '1' || loc.charAt(1) > '8') {
+			// add to the error message to inform the user
 			errorMessage.append("Invalid row indicator: " + loc.charAt(1));
 		}
 
+		// if strings have been appended to the StringBuilder then an error 
+		// has occurred
 		if(errorMessage.length() > 0) {
+			// throw the exception with the appropriate message
 			throw new InvalidLocationException(errorMessage.toString());
 		}
 
