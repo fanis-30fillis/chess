@@ -286,6 +286,8 @@ public class Game {
 
 			if(in.length() == 4) {
 				handleMove(in);
+			} else {
+				System.out.println("Invalid move length");
 			}
 		}
 		scan.close();
