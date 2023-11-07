@@ -340,5 +340,58 @@ class Testing {
 		assertEquals("K",testBoard.board[0][4].rep);
 		System.out.println(testBoard.toString());
 	}
-	
+
+	@Test
+	void testBishopMovements() throws InvalidLocationException, InvalidMoveException {
+
+		Board testBoard = new Board();
+		for(int row = 0; row < 8; row++) {
+			for(int col = 0; col < 8; col++) {
+				testBoard.board[row][col] = new EmptyPiece(new Location(row, col), testBoard);
+			}
+		}
+		testBoard.board[1][5] = new Bishop(new Location(1,5), Color.WHITE, testBoard);
+		System.out.println(testBoard.toString());
+		testBoard.board[1][5].moveTo(new Location(2,6));
+		assertTrue(testBoard.board[1][5].isEmpty());
+		assertEquals("B",testBoard.board[2][6].rep);
+		System.out.println(testBoard.toString());
+		testBoard.board[2][6].moveTo(new Location(0,4));
+		assertTrue(testBoard.board[1][5].isEmpty());
+		assertEquals("B",testBoard.board[0][4].rep);
+		System.out.println(testBoard.toString());
+
+		testBoard.board[0][4].moveTo(new Location(3,7));
+		assertTrue(testBoard.board[0][4].isEmpty());
+		assertEquals("B",testBoard.board[3][7].rep);
+		System.out.println(testBoard.toString());
+
+		testBoard.board[1][5] = new Bishop(new Location(1,5), Color.BLACK, testBoard);
+		System.out.println(testBoard.toString());
+		testBoard.board[3][7].moveTo(new Location(1,5));
+		assertTrue(testBoard.board[3][7].isEmpty());
+		assertEquals("B",testBoard.board[1][5].rep);
+		System.out.println(testBoard.toString());
+
+		Exception e = assertThrows(Exception.class, () -> {
+			testBoard.board[1][5].moveTo(new Location(0,1));
+		});
+		String expectedString = "Invalid";
+		String exceptionMessage = e.getMessage();
+		assertEquals(expectedString, exceptionMessage);
+
+		e = assertThrows(Exception.class, () -> {
+			testBoard.board[1][5].moveTo(new Location(7,7));
+		});
+		expectedString = "Invalid";
+		exceptionMessage = e.getMessage();
+		assertEquals(expectedString, exceptionMessage);
+
+		e = assertThrows(Exception.class, () -> {
+			testBoard.board[1][5].moveTo(new Location(1,6));
+		});
+		expectedString = "Invalid";
+		exceptionMessage = e.getMessage();
+		assertEquals(expectedString, exceptionMessage);
+	}
 }
