@@ -147,14 +147,6 @@ public class Game {
 		String[] whiteMoves = parseMoveString(whiteMoveRawString);
 		String[] blackMoves = parseMoveString(blackMoveRawString);
 
-		// determines the next move player based on the moves that have been played
-		if(whiteMoves.length > blackMoves.length) {
-			// if the are more white moves played than black then the first move is
-			// going to be played by the black player
-			this.colorMoves = Color.BLACK;
-		} else {
-			this.colorMoves = Color.WHITE;
-		}
 		
 		int wCnt = 0;
 		int bCnt = 0;
