@@ -42,26 +42,37 @@ public class Game {
 	// prints the help to the user
 	private void printHelp() {System.out.println(help);}
 
+	// checks whether a char indicating the column is valid
 	private boolean isValidCol(char col) {
 		return col >= 'a' && col <= 'h';
 	}
 
+	// checks whether a char indicating the row is valid
 	private boolean isValidRow(char row) {
 		return row >= '1' && row <= '8';
 	}
 
+	// checks whether a move sequence is valid
 	private boolean isValidString(String move) {
 		return isValidCol(move.charAt(0)) && isValidCol(move.charAt(2)) &&
 				isValidRow(move.charAt(1)) && isValidRow(move.charAt(3));
 	}
 	
+	// loads a savefile
 	private void openFile() 
 	{
+		// initializes the board removing the pieces and putting them in
+		// their initial position
 		this.gameBoard.init();
 		String answer = "";
 
-		while(whiteMoves.length() != 0 && !answer.equals("y") && !answer.equals("n")) {
+		// if white has moved then the user hasn't given a specific answer
+		// [y/n]
+		while(whiteMoves.length() != 0 && !answer.equals("y") && 
+				!answer.equals("n")) {
+			// inform the that the game being run will be abandoned
 			System.out.print("You have a game running, do you want to abandon it ?[y/n]");
+			// gets the user's answer
 			answer = scan.nextLine();
 		}
 
@@ -276,11 +287,17 @@ public class Game {
 		scan.close();
 	}
 	
+	// parses a move string sequence to a move array
+	// used for loading files
 	private String[] parseMoveString(String moves) {
+		// the array that will hold the moves
 		String[] resultingArray = new String[moves.length()/4];
+		// for each of the moves 
 		for(int cnt = 0; cnt <= moves.length()-4; cnt+=4) {
+			// put it into the resulting array
 			resultingArray[cnt/4] = moves.substring(cnt, cnt+4);
 		}
+		// return the move array
 		return resultingArray;
 	}
 }

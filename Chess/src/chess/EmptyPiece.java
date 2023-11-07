@@ -2,6 +2,7 @@ package chess;
 
 public class EmptyPiece extends Piece {
 
+	// color of the piece doesn't matter
 	EmptyPiece(Location loc, Board board) {
 		super(loc, Color.WHITE, board);
 	}
