@@ -148,20 +148,10 @@ public class Game {
 		String[] blackMoves = parseMoveString(blackMoveRawString);
 
 		
-		int wCnt = 0;
-		int bCnt = 0;
-		while(wCnt < whiteMoves.length || bCnt < blackMoves.length) {
-			// if the last bit of the number is enabled then it's an odd number
-			if(colorMoves == Color.WHITE) {
-				// division by two using right shifting by one bit
-				handleMove(whiteMoves[wCnt]);
-				wCnt++;
-			} else {
-				if(bCnt < blackMoves.length) {
-					// division by two using right shifting by one bit
-					handleMove(blackMoves[bCnt]);
-					bCnt++;
-				}
+		for(int cnt = 0; cnt < whiteMoves.length; cnt++) {
+			handleMove(whiteMoves[cnt]);
+			if(cnt < blackMoves.length) {
+				handleMove(blackMoves[cnt]);
 			}
 		}
 
@@ -278,22 +268,26 @@ public class Game {
 
 			// if we have a command to the program
 			if(in.charAt(0) == ':') {
+				boolean hasEnteredSwitch = false;
 				// switch that acts according to what the user wants
 				switch(in.charAt(1)) {
 				case 'h':
 					printHelp();
 					break;
 				case 's':
+					hasEnteredSwitch = true;
 					saveGame();
 					break;
 				case 'o':
+					hasEnteredSwitch = true;
 					openFile();
 				}
 
-				if(in.charAt(1) == 'x') {
-					System.out.println("Goodbye");
-					break;
-				} else {
+				if(!hasEnteredSwitch) {
+					if (in.charAt(1) == 'x') {
+						System.out.println("Goodbye");
+						break;
+					}
 					System.out.println("Invalid operation given");
 				}
 				continue;
