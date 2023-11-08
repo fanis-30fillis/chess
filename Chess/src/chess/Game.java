@@ -63,7 +63,6 @@ public class Game {
 	{
 		// initializes the board removing the pieces and putting them in
 		// their initial position
-		this.gameBoard.init();
 		String answer = "";
 
 		// if white has moved then the user hasn't given a specific answer
@@ -148,6 +147,7 @@ public class Game {
 		String[] blackMoves = parseMoveString(blackMoveRawString);
 
 		
+		this.gameBoard.init();
 		for(int cnt = 0; cnt < whiteMoves.length; cnt++) {
 			handleMove(whiteMoves[cnt]);
 			if(cnt < blackMoves.length) {
